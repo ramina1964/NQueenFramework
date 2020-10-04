@@ -317,7 +317,7 @@ namespace NQueen.GUI.ViewModel
 		#region PrivateMethods
 		private void Initialize(ISolver solver)
 		{
-			_validation = new InputViewModel { CascadeMode = CascadeMode.StopOnFirstFailure };
+			_validation = new InputViewModel { CascadeMode = CascadeMode.Stop };
 
 			SimulateCommand = new RelayCommand(SimulateAsync, CanSimulate);
 			CancelCommand = new RelayCommand(Cancel, CanCancel);
