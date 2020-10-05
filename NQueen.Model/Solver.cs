@@ -21,14 +21,18 @@ namespace NQueen.Model
 
         #region ISolverInterface
         public int DelayInMilliseconds { get; set; }
+
         public bool CancelSolver { get; set; }
+
         public SolutionMode SolutionMode { get; set; }
+
         public DisplayMode DisplayMode { get; set; }
+
         public ObservableCollection<Solution> Solutions { get; set; }
 
-        public event PlaceQueenDelegate QueenPlaced;
+        public event QueenPlacedDelegate QueenPlaced;
 
-        public event SolutionFoundDelegate ShowSolution;
+        public event SolutionFoundDelegate SolutionFound;
 
         public Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize, SolutionMode solutionMode)
         {
@@ -75,13 +79,17 @@ namespace NQueen.Model
             }
         }
 
-
         #region PublicProperties
         public ISimulationResults Results { get; set; }
+
         public sbyte BoardSize { get; set; }
+
         public string BoardSizeText { get; set; }
+
         public int NoOfSolutions => Solutions.Count();
+
         public sbyte HalfSize { get; set; }
+
         public sbyte[] QueenList { get; set; }
 
         public string ProgressLabel
@@ -93,7 +101,8 @@ namespace NQueen.Model
 
         #region VirtualMethods
         protected virtual void OnQueenPlaced(sbyte[] e) => QueenPlaced?.Invoke(this, e);
-        protected virtual void OnShowSolution(sbyte[] e) => ShowSolution?.Invoke(this, e);
+
+        protected virtual void OnSolutionFound(sbyte[] e) => SolutionFound?.Invoke(this, e);
         #endregion VirtualMethods
 
         #region PrivateMethods
@@ -204,7 +213,7 @@ namespace NQueen.Model
 
                     // Activate this code in case of IsVisulaized == true.
                     if (isUpdated && DisplayMode == DisplayMode.Visualize)
-                    { ShowSolution(this, QueenList); }
+                    { SolutionFound(this, QueenList); }
 
                     ProgressValue = Math.Round(100.0 * solutions.Count / maxSolutionSize);
                     return false;

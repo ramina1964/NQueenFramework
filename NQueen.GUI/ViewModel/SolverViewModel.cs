@@ -23,8 +23,10 @@ namespace NQueen.GUI.ViewModel
         public SolverViewModel(ISolver solver)
         {
             Initialize(solver);
+
+            // Add event handlers to the invocation lists of the corresponding delegates
             Solver.QueenPlaced += Queens_QueenPlaced;
-            Solver.ShowSolution += Queens_ShowSolution;
+            Solver.SolutionFound += Queens_SolutionFound;
         }
         #endregion Constructor
 
@@ -346,7 +348,7 @@ namespace NQueen.GUI.ViewModel
             Chessboard?.CreateSquares(BoardSize, new List<SquareViewModel>());
         }
 
-        private void Queens_ShowSolution(object sender, sbyte[] e)
+        private void Queens_SolutionFound(object sender, sbyte[] e)
         {
             var id = Solutions.Count + 1;
             var sol = new Solution(e, id);
