@@ -5,8 +5,6 @@ using System.Windows;
 
 namespace NQueen.Common.Interface
 {
-    //public delegate void SolutionFoundDelegate(object sender, sbyte[] e);
-
     public delegate void SolutionFoundDelegate(object sender, sbyte[] e);
 
     public delegate void QueenPlacedDelegate(object sender, sbyte[] e);
