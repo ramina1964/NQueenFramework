@@ -6,31 +6,18 @@ namespace NQueen.Test
     public partial class NQueenSolverTests
     {
         #region PrivateFields
-        private static readonly  Dictionary<sbyte, int> noOfUniqueSols = new Dictionary<sbyte, int>
-        {
-            { 6, 1 },
-            { 7, 6 },
-            { 8, 12 },
-            { 9, 46 },
-            { 10, 92 },
-            { 11, 341 },
-            { 12, 1787 },
-            { 13, 9233 },
-            { 14, 45752 }
-        };
-
-        private static readonly Dictionary<sbyte, int> noOfAllSols = new Dictionary<sbyte, int>
-        {
-            { 6, 4 },
-            { 7, 40 },
-            { 8, 92 },
-            { 9, 352 },
-            { 10, 724 },
-            { 11, 2680 },
-            { 12, 14200 },
-            { 13, 73712 },
-            { 14, 365596 }
-        };
+        //private static readonly Dictionary<sbyte, int> noOfAllSols = new Dictionary<sbyte, int>
+        //{
+        //    { 6, 4 },
+        //    { 7, 40 },
+        //    { 8, 92 },
+        //    { 9, 352 },
+        //    { 10, 724 },
+        //    { 11, 2680 },
+        //    { 12, 14200 },
+        //    { 13, 73712 },
+        //    { 14, 365596 }
+        //};
 
         private static readonly Dictionary<sbyte, List<Solution>> singleSol = new Dictionary<sbyte, List<Solution>>
         {
@@ -43,7 +30,10 @@ namespace NQueen.Test
             { 7, new List<Solution> { new Solution(new sbyte[] { 0, 2, 4, 6, 1, 3, 5 } ) } },
             { 8, new List<Solution> { new Solution(new sbyte[] { 0, 4, 7, 5, 2, 6, 1, 3 } ) } },
             { 9, new List<Solution> { new Solution(new sbyte[] { 0, 2, 5, 7, 1, 3, 8, 6, 4 } ) } },
-
+            { 10, new List<Solution> { new Solution(new sbyte[] { 0, 2, 5, 7, 9, 4, 8, 1, 3, 6 } ) } },
+            { 11, new List<Solution> { new Solution(new sbyte[] { 0, 2, 4, 6, 8, 10, 1, 3, 5, 7, 9 } ) } },
+            { 12, new List<Solution> { new Solution(new sbyte[] { 0, 2, 4, 7, 9, 11, 5, 10, 1, 6, 8, 3 } ) } },
+            { 13, new List<Solution> { new Solution(new sbyte[] { 0, 2, 4, 1, 8, 11, 9, 12, 3, 5, 7, 10, 6 } ) } },
             { 18, new List<Solution> {new Solution(new sbyte[] {0, 2, 4, 1, 7, 14, 11, 15, 12, 16, 5, 17, 6, 3, 10, 8, 13,
                 9 } ) } },
 
@@ -353,14 +343,6 @@ namespace NQueen.Test
         #endregion PrivateFields
 
         #region PrivateMethods
-        private static int GetNoOfSingleSol()
-        { return 1; }
-
-        private static int GetNoOfUniqueSols(sbyte boardSize)
-        { return noOfUniqueSols[boardSize]; }
-
-        private static int GetNoOfAllSols(sbyte boardSize)
-        { return noOfAllSols[boardSize]; }
 
         private static List<Solution> GetSingleSol(sbyte boardSize)
         { return singleSol[boardSize]; }
