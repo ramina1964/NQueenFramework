@@ -17,7 +17,7 @@ namespace NQueen.Test
         [TestCase(6, SolutionMode.All), TestCase(7, SolutionMode.All), TestCase(8, SolutionMode.All)]
         [TestCase(9, SolutionMode.All), TestCase(10, SolutionMode.All), TestCase(11, SolutionMode.All)]
         [TestCase(12, SolutionMode.All), TestCase(13, SolutionMode.All), TestCase(14, SolutionMode.All)]
-        public void Should_generate_correct_amount_of_solutions(sbyte boardSize, SolutionMode solutionMode)
+        public void Should_generate_correct_no_of_solutions(sbyte boardSize, SolutionMode solutionMode)
         {
             // Arrange
             Sut = new Solver(boardSize);
@@ -62,9 +62,10 @@ namespace NQueen.Test
             var actual = simResults.Result.Solutions;
 
             // Assert
+            //actual.Should().BeEquivalentTo(expected, options =>
+            //    options.Excluding(s => s.Id).Excluding(s => s.Name).Excluding(s => s.Details));
             actual.Should().BeEquivalentTo(expected, options =>
-                options.Excluding(s => s.Id)
-                .Excluding(s => s.Name));
+                options.Excluding(s => s.Id).Excluding(s => s.Name).Excluding(s => s.QueenList));
         }
         #endregion PublicTestMethods
     }

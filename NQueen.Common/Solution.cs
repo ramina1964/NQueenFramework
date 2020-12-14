@@ -14,7 +14,7 @@ namespace NQueen.Common
             BoardSize = queenList.Length;
             Id = id;
             Name = ToString();
-            QueenList = queenList.Select(e => (int)e).ToArray();
+            QueenList = queenList.ToArray();
             Positions = SetPositions(QueenList);
             Details = GetDetails();
         }
@@ -22,18 +22,21 @@ namespace NQueen.Common
 
         #region PublicProperties
         public List<Position> Positions;
+
         public int Id { get; }
+
         public string Name { get; set; }
+
         public string Details { get; set; }
         public sealed override string ToString() => $"No. {Id}";
-        public int[] QueenList { get; }
+
+        public sbyte[] QueenList { get; }
         #endregion PublicProperties
 
         #region PrivateMembers
         private int BoardSize { get; }
         private string GetDetails()
         {
-            //const int noOfQueensPerLine = 20;
             const int noOfQueensPerLine = 40;
             var noOfLines = (BoardSize % noOfQueensPerLine == 0) ?
                 BoardSize / noOfQueensPerLine :
@@ -49,7 +52,7 @@ namespace NQueen.Common
                 for (var posInLine = 0; posInLine < maxQueensInLastLine; posInLine++)
                 {
                     var posNo = noOfQueensPerLine * lineNo + posInLine;
-                    sb.Append($"({Positions[posNo].Row + 1,0:N0}, {Positions[posNo].Column + 1,0:N0})");
+                    sb.Append($"({Positions[posNo].RowNo + 1,0:N0}, {Positions[posNo].ColumnNo + 1,0:N0})");
 
                     if (posNo < BoardSize - 1)
                         sb.Append(", ");
@@ -62,10 +65,10 @@ namespace NQueen.Common
             return sb.ToString();
         }
 
-        private List<Position> SetPositions(IEnumerable<int> queenList)
+        private List<Position> SetPositions(IEnumerable<sbyte> queenList)
         {
             return queenList.Select((item, index) =>
-                new Position(index, item)).ToList();
+                new Position((sbyte)index, item)).ToList();
         }
         #endregion PrivateMembers
     }

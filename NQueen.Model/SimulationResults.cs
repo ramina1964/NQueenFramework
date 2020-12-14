@@ -21,7 +21,7 @@ namespace NQueen.Model
             }
             else
             {
-                BoardSize = sol.Positions.Count;
+                BoardSize = (sbyte) sol.Positions.Count;
                 NoOfSolutions = enumerable.Count();
                 Solutions = new List<Solution>(enumerable);
             }
@@ -29,9 +29,12 @@ namespace NQueen.Model
         #endregion Constructor
 
         #region PublicProperties
-        public int BoardSize { get; set; }
+        public sbyte BoardSize { get; set; }
+
         public IEnumerable<Solution> Solutions { get; set; }
+
         public int NoOfSolutions { get; set; }
+
         public double ElapsedTimeInSec { get; set; }
         #endregion PublicProperties
     }

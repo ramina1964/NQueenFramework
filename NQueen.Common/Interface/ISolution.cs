@@ -3,9 +3,12 @@
     public interface ISolution
     {
         string Details { get; set; }
+
         int Id { get; }
+
         string Name { get; set; }
-        int[] QueenList { get; }
+
+        sbyte[] QueenList { get; }
 
         string ToString();
     }
