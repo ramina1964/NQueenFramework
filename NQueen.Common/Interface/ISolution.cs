@@ -4,7 +4,7 @@
     {
         string Details { get; set; }
 
-        int Id { get; }
+        int? Id { get; }
 
         string Name { get; set; }
 

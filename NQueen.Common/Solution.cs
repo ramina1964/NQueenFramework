@@ -9,7 +9,7 @@ namespace NQueen.Common
     public class Solution : ISolution
     {
         #region Constructor
-        public Solution(sbyte[] queenList, int id)
+        public Solution(sbyte[] queenList, int? id = null)
         {
             BoardSize = queenList.Length;
             Id = id;
@@ -23,7 +23,7 @@ namespace NQueen.Common
         #region PublicProperties
         public List<Position> Positions;
 
-        public int Id { get; }
+        public int? Id { get; }
 
         public string Name { get; set; }
 

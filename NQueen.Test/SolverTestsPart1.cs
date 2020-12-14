@@ -62,10 +62,8 @@ namespace NQueen.Test
             var actual = simResults.Result.Solutions;
 
             // Assert
-            //actual.Should().BeEquivalentTo(expected, options =>
-            //    options.Excluding(s => s.Id).Excluding(s => s.Name).Excluding(s => s.Details));
             actual.Should().BeEquivalentTo(expected, options =>
-                options.Excluding(s => s.Id).Excluding(s => s.Name).Excluding(s => s.QueenList));
+                options.Excluding(s => s.Id).Excluding(s => s.Name));
         }
         #endregion PublicTestMethods
     }
