@@ -1,5 +1,5 @@
-﻿using NQueen.Common.Enum;
-using NQueen.Common.Properties;
+﻿using NQueen.Shared.Enum;
+using NQueen.Shared.Properties;
 using NQueen.GUI.ViewModel;
 using NQueen.Model;
 using System.Windows;

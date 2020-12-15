@@ -1,4 +1,4 @@
-﻿using NQueen.Common;
+﻿using NQueen.Shared;
 using NQueen.GUI.ViewModel;
 using System.Windows;
 using System.Windows.Controls;

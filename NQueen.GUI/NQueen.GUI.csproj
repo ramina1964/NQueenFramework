@@ -165,10 +165,6 @@
     <Resource Include="Images\WhiteQueen.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NQueen.Common\NQueen.Common.csproj">
-      <Project>{15330702-6614-4cbb-9cf4-42975a41fbd4}</Project>
-      <Name>NQueen.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NQueen.Model\NQueen.Model.csproj">
       <Project>{105b3286-daea-4f25-9640-16f26f6cd160}</Project>
       <Name>NQueen.Model</Name>
@@ -176,6 +172,10 @@
     <ProjectReference Include="..\NQueen.Presentation\NQueen.Presentation.csproj">
       <Project>{39280441-fe76-4cd9-bdc1-11092521136e}</Project>
       <Name>NQueen.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NQueen.Shared\NQueen.Shared.csproj">
+      <Project>{6707bd38-2a98-4a12-97ad-369a463d6c46}</Project>
+      <Name>NQueen.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

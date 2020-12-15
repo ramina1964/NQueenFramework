@@ -1,5 +1,5 @@
-﻿using NQueen.Common;
-using NQueen.Common.Enum;
+﻿using NQueen.Shared;
+using NQueen.Shared.Enum;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;

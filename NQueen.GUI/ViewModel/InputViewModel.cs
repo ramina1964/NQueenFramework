@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using NQueen.Common.Enum;
-using NQueen.Common.Properties;
+using NQueen.Shared.Enum;
+using NQueen.Shared.Properties;
 
 namespace NQueen.GUI.ViewModel
 {

@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
-using NQueen.Common;
-using NQueen.Common.Enum;
+using NQueen.Shared;
+using NQueen.Shared.Enum;
+using NQueen.Shared.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

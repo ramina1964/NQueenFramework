@@ -79,13 +79,13 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NQueen.Common\NQueen.Common.csproj">
-      <Project>{15330702-6614-4CBB-9CF4-42975A41FBD4}</Project>
-      <Name>NQueen.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NQueen.Model\NQueen.Model.csproj">
       <Project>{105b3286-daea-4f25-9640-16f26f6cd160}</Project>
       <Name>NQueen.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NQueen.Shared\NQueen.Shared.csproj">
+      <Project>{6707bd38-2a98-4a12-97ad-369a463d6c46}</Project>
+      <Name>NQueen.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
