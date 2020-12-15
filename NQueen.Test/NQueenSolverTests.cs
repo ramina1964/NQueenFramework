@@ -13,9 +13,6 @@ namespace NQueen.Test
         [TestCase(2, SolutionMode.All), TestCase(3, SolutionMode.All)]
         public void Should_generate_empty_list_of_solutions(sbyte boardSize, SolutionMode solutionMode)
         {
-            // Arrange
-            //Sut = new Solver(boardSize);
-
             // Act
             Actual = GetActual(boardSize, solutionMode);
 
@@ -43,8 +40,8 @@ namespace NQueen.Test
 
             // Assert
             _ = Actual.Count.Equals(Expected.Count);
-            Actual.Should().BeEquivalentTo(Expected, options =>
-                options.Excluding(s => s.Id).Excluding(s => s.Name));
+            Actual.Should()
+                .BeEquivalentTo(Expected, options => options.Excluding(s => s.Id).Excluding(s => s.Name));
         }
 
         [TestCase(4, SolutionMode.Unique), TestCase(5, SolutionMode.Unique), TestCase(6, SolutionMode.Unique)]
@@ -60,8 +57,8 @@ namespace NQueen.Test
 
             // Assert
             _ = Actual.Count.Equals(Expected.Count);
-            Actual.Should().BeEquivalentTo(Expected, options =>
-                options.Excluding(s => s.Id).Excluding(s => s.Name));
+            Actual.Should()
+                .BeEquivalentTo(Expected, options => options.Excluding(s => s.Id).Excluding(s => s.Name));
         }
 
         [TestCase(1, SolutionMode.All), TestCase(4, SolutionMode.All), TestCase(5, SolutionMode.All)]
@@ -74,10 +71,11 @@ namespace NQueen.Test
 
             // Act
             Actual = GetActual(boardSize, solutionMode);
+
             // Assert
             _ = Actual.Count.Equals(Expected.Count);
-            Actual.Should().BeEquivalentTo(Expected, options =>
-                options.Excluding(s => s.Id).Excluding(s => s.Name));
+            Actual.Should()
+                .BeEquivalentTo(Expected, options => options.Excluding(s => s.Id).Excluding(s => s.Name));
         }
         #endregion PublicTestMethods
     }
