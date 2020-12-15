@@ -6,19 +6,14 @@ using System.Linq;
 
 namespace NQueen.Test
 {
-    public partial class NQueenSolverTests
+    public class NQueenSolverTests : TestBase
     {
-        public Solver Sut { get; set; }
+        public NQueenSolverTests() : base()
+        {
 
-        //public NQueenSolverTests(sbyte boardSize, SolutionMode solutionMode)
-        //{
-        //    Sut = new Solver(boardSize);
-        //    var expected = (solutionMode == SolutionMode.Single)
-        //        ? GetSingleSol(boardSize)
-        //        : (solutionMode == SolutionMode.Unique)
-        //        ? GetUniqueSols(boardSize)
-        //        : GetAllSols(boardSize);
-        //}
+        }
+
+        public Solver Sut { get; set; }
 
         #region PublicTestMethods
         [TestCase(2, SolutionMode.Single), TestCase(3, SolutionMode.Single)]

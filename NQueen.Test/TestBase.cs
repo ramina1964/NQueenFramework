@@ -3,22 +3,33 @@ using System.Collections.Generic;
 
 namespace NQueen.Test
 {
-    public partial class NQueenSolverTests
+    public class TestBase
     {
-        #region PrivateFields
-        //private static readonly Dictionary<sbyte, int> noOfAllSols = new Dictionary<sbyte, int>
-        //{
-        //    { 6, 4 },
-        //    { 7, 40 },
-        //    { 8, 92 },
-        //    { 9, 352 },
-        //    { 10, 724 },
-        //    { 11, 2680 },
-        //    { 12, 14200 },
-        //    { 13, 73712 },
-        //    { 14, 365596 }
-        //};
+        public TestBase()
+        {
+            //public NQueenSolverTests(sbyte boardSize, SolutionMode solutionMode)
+            //{
+            //    Sut = new Solver(boardSize);
+            //    var expected = (solutionMode == SolutionMode.Single)
+            //        ? GetSingleSol(boardSize)
+            //        : (solutionMode == SolutionMode.Unique)
+            //        ? GetUniqueSols(boardSize)
+            //        : GetAllSols(boardSize);
+            //}
+        }
 
+        #region PublicMethods
+        public static List<Solution> GetSingleSol(sbyte boardSize)
+        { return singleSol[boardSize]; }
+
+        public static List<Solution> GetUniqueSols(sbyte boardSize)
+        { return uniqueSol[boardSize]; }
+
+        public static List<Solution> GetAllSols(sbyte boardSize)
+        { return allSol[boardSize]; }
+        #endregion PublicMethods
+
+        #region PrivateFields
         private static readonly Dictionary<sbyte, List<Solution>> singleSol = new Dictionary<sbyte, List<Solution>>
         {
             { 1, new List<Solution> { new Solution(new sbyte[] { 0 } ) } },
@@ -341,17 +352,5 @@ namespace NQueen.Test
             },
         };
         #endregion PrivateFields
-
-        #region PrivateMethods
-
-        private static List<Solution> GetSingleSol(sbyte boardSize)
-        { return singleSol[boardSize]; }
-
-        private static List<Solution> GetUniqueSols(sbyte boardSize)
-        { return uniqueSol[boardSize]; }
-
-        private static List<Solution> GetAllSols(sbyte boardSize)
-        { return allSol[boardSize]; }
-        #endregion PrivateMethods
     }
 }
