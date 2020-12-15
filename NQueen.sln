@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQueen.GUI", "NQueen.GUI\NQueen.GUI.csproj", "{090397BF-3C21-48B9-9978-A05A6D7FC230}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQueen.Main", "NQueen.GUI\NQueen.Main.csproj", "{090397BF-3C21-48B9-9978-A05A6D7FC230}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQueen.Model", "NQueen.Model\NQueen.Model.csproj", "{105B3286-DAEA-4F25-9640-16F26F6CD160}"
 EndProject
