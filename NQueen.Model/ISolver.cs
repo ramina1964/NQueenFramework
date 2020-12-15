@@ -1,9 +1,10 @@
-﻿using NQueen.Common.Enum;
+﻿using NQueen.Common;
+using NQueen.Common.Enum;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace NQueen.Common.Interface
+namespace NQueen.Model
 {
     public delegate void SolutionFoundDelegate(object sender, sbyte[] e);
 

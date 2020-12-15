@@ -4,8 +4,8 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using NQueen.Common;
 using NQueen.Common.Enum;
-using NQueen.Common.Interface;
 using NQueen.Common.Properties;
+using NQueen.Model;
 using NQueen.Presentation;
 using System;
 using System.Collections.Generic;
@@ -199,6 +199,7 @@ namespace NQueen.GUI.ViewModel
         }
 
         public ValidationResult ValidationResult { get; set; }
+
         public string ResultTitle => Utility.SolutionTitle(SolutionMode);
 
         public bool IsValid
