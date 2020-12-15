@@ -1,24 +1,35 @@
 ﻿using NQueen.Common;
+using NQueen.Common.Enum;
+using NQueen.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NQueen.Test
 {
     public class TestBase
     {
-        public TestBase()
+        public Solver Sut { get; set; }
+
+        public List<Solution> Expected { get; set; }
+
+        public List<Solution> Actual { get; set; }
+
+        public List<Solution> GetExpected(sbyte boardSize, SolutionMode solutionMode)
         {
-            //public NQueenSolverTests(sbyte boardSize, SolutionMode solutionMode)
-            //{
-            //    Sut = new Solver(boardSize);
-            //    var expected = (solutionMode == SolutionMode.Single)
-            //        ? GetSingleSol(boardSize)
-            //        : (solutionMode == SolutionMode.Unique)
-            //        ? GetUniqueSols(boardSize)
-            //        : GetAllSols(boardSize);
-            //}
+            return (solutionMode == SolutionMode.Single)
+                ? GetSingleSol(boardSize)
+                : (solutionMode == SolutionMode.Unique)
+                ? GetUniqueSols(boardSize)
+                : GetAllSols(boardSize);
         }
 
-        #region PublicMethods
+        public List<Solution> GetActual(sbyte boardSize, SolutionMode solutionMode)
+        {
+            return Sut
+                    .GetSimulationResultsAsync(boardSize, solutionMode)
+                    .Result.Solutions.ToList();
+        }
+
         public static List<Solution> GetSingleSol(sbyte boardSize)
         { return singleSol[boardSize]; }
 
@@ -27,9 +38,7 @@ namespace NQueen.Test
 
         public static List<Solution> GetAllSols(sbyte boardSize)
         { return allSol[boardSize]; }
-        #endregion PublicMethods
 
-        #region PrivateFields
         private static readonly Dictionary<sbyte, List<Solution>> singleSol = new Dictionary<sbyte, List<Solution>>
         {
             { 1, new List<Solution> { new Solution(new sbyte[] { 0 } ) } },
@@ -351,6 +360,5 @@ namespace NQueen.Test
                 }
             },
         };
-        #endregion PrivateFields
     }
 }

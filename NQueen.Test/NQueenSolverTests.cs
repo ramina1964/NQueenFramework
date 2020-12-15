@@ -2,19 +2,11 @@
 using NQueen.Common.Enum;
 using NQueen.Model;
 using NUnit.Framework;
-using System.Linq;
 
 namespace NQueen.Test
 {
     public class NQueenSolverTests : TestBase
     {
-        public NQueenSolverTests() : base()
-        {
-
-        }
-
-        public Solver Sut { get; set; }
-
         #region PublicTestMethods
         [TestCase(2, SolutionMode.Single), TestCase(3, SolutionMode.Single)]
         [TestCase(2, SolutionMode.Unique), TestCase(3, SolutionMode.Unique)]
@@ -22,15 +14,14 @@ namespace NQueen.Test
         public void Should_generate_empty_list_of_solutions(sbyte boardSize, SolutionMode solutionMode)
         {
             // Arrange
-            Sut = new Solver(boardSize);
+            //Sut = new Solver(boardSize);
 
             // Act
-            var simResults = Sut.GetSimulationResultsAsync(boardSize, solutionMode);
-            var actual = simResults.Result.Solutions;
+            Actual = GetActual(boardSize, solutionMode);
 
             // Assert
-            actual.Should().BeEmpty();
-            actual.Should().HaveCount(0);
+            Actual.Should().BeEmpty();
+            Actual.Should().HaveCount(0);
         }
 
         [TestCase(1, SolutionMode.Single), TestCase(1, SolutionMode.Unique), TestCase(1, SolutionMode.All)]
@@ -45,19 +36,14 @@ namespace NQueen.Test
         {
             // Arrange
             Sut = new Solver(boardSize);
-            var expected = (solutionMode == SolutionMode.Single)
-                ? GetSingleSol(boardSize)
-                : (solutionMode == SolutionMode.Unique)
-                ? GetUniqueSols(boardSize)
-                : GetAllSols(boardSize);
+            Expected = GetExpected(boardSize, solutionMode);
 
             // Act
-            var simResults = Sut.GetSimulationResultsAsync(boardSize, solutionMode);
-            var actual = simResults.Result.Solutions.ToList();
+            Actual = GetActual(boardSize, solutionMode);
 
             // Assert
-            _ = actual.Count.Equals(expected.Count);
-            actual.Should().BeEquivalentTo(expected, options =>
+            _ = Actual.Count.Equals(Expected.Count);
+            Actual.Should().BeEquivalentTo(Expected, options =>
                 options.Excluding(s => s.Id).Excluding(s => s.Name));
         }
 
@@ -67,19 +53,14 @@ namespace NQueen.Test
         {
             // Arrange
             Sut = new Solver(boardSize);
-            var expected = (solutionMode == SolutionMode.Single)
-                ? GetSingleSol(boardSize)
-                : (solutionMode == SolutionMode.Unique)
-                ? GetUniqueSols(boardSize)
-                : GetAllSols(boardSize);
+            Expected = GetExpected(boardSize, solutionMode);
 
             // Act
-            var simResults = Sut.GetSimulationResultsAsync(boardSize, solutionMode);
-            var actual = simResults.Result.Solutions.ToList();
+            Actual = GetActual(boardSize, solutionMode);
 
             // Assert
-            _ = actual.Count.Equals(expected.Count);
-            actual.Should().BeEquivalentTo(expected, options =>
+            _ = Actual.Count.Equals(Expected.Count);
+            Actual.Should().BeEquivalentTo(Expected, options =>
                 options.Excluding(s => s.Id).Excluding(s => s.Name));
         }
 
@@ -89,19 +70,13 @@ namespace NQueen.Test
         {
             // Arrange
             Sut = new Solver(boardSize);
-            var expected = (solutionMode == SolutionMode.Single)
-                ? GetSingleSol(boardSize)
-                : (solutionMode == SolutionMode.Unique)
-                ? GetUniqueSols(boardSize)
-                : GetAllSols(boardSize);
+            Expected = GetExpected(boardSize, solutionMode);
 
             // Act
-            var simResults = Sut.GetSimulationResultsAsync(boardSize, solutionMode);
-            var actual = simResults.Result.Solutions.ToList();
-
+            Actual = GetActual(boardSize, solutionMode);
             // Assert
-            _ = actual.Count.Equals(expected.Count);
-            actual.Should().BeEquivalentTo(expected, options =>
+            _ = Actual.Count.Equals(Expected.Count);
+            Actual.Should().BeEquivalentTo(Expected, options =>
                 options.Excluding(s => s.Id).Excluding(s => s.Name));
         }
         #endregion PublicTestMethods
