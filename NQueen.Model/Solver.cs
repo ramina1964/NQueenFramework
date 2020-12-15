@@ -48,7 +48,7 @@ namespace NQueen.Model
         public ISimulationResults GetResults(SolutionMode solutionMode)
         {
             var stopwatch = Stopwatch.StartNew();
-            var solutions = FindSolutions(solutionMode).ToList();
+            var solutions = MainSolve(solutionMode).ToList();
             stopwatch.Stop();
             var timeInSec = (double)stopwatch.ElapsedMilliseconds / 1000;
             var elapsedTimeInSec = Math.Round(timeInSec, 1);
@@ -153,87 +153,88 @@ namespace NQueen.Model
             return true;
         }
 
-        private IEnumerable<Solution> FindSolutions(SolutionMode solutionMode)
+        private IEnumerable<Solution> MainSolve(SolutionMode mode)
         {
             var solutions = new HashSet<sbyte[]>(new SequenceEquality<sbyte>());
-            var maxSolutionSize = Utility.FindSolutionSize(BoardSize, solutionMode);
-
-            // Private function FindValidPos
-            sbyte FindPos(sbyte rowNo = 0)
-            {
-                var isHalfSizeReachedMultSol = rowNo == HalfSize && solutions.Count > 0 &&
-                    Array.IndexOf<sbyte>(QueenList, 0, 0, HalfSize) == -1 && solutionMode != SolutionMode.Single;
-
-                if (isHalfSizeReachedMultSol)
-                { return -1; }
-
-                for (var pos = (sbyte)(QueenList[rowNo] + 1); pos < BoardSize; pos++)
-                {
-                    var isValid = true;
-                    for (var j = 0; j < rowNo; j++)
-                    {
-                        var lhs = Math.Abs(pos - QueenList[j]);
-                        var rhs = Math.Abs(rowNo - j);
-                        if (0 != lhs && lhs != rhs)
-                        { continue; }
-
-                        isValid = false;
-                        break;
-                    }
-
-                    if (isValid)
-                    { return pos; }
-                }
-
-                return -1;
-            }
-
-            // Private function FindSolsRec
-            bool FindSolsRec(sbyte row = 0)
-            {
-                if (CancelSolver)
-                { return false; }
-
-                if (DisplayMode == DisplayMode.Visualize)
-                {
-                    OnQueenPlaced(QueenList);
-                    Thread.Sleep(DelayInMilliseconds);
-                }
-
-                if (solutionMode == SolutionMode.Single && solutions.Count == 1)
-                { return true; }
-
-                if (row == -1)
-                { return false; }
-
-                // Here a new solution is found.
-                if (row == BoardSize)
-                {
-                    var isUpdated = UpdateSols(QueenList, solutions, solutionMode);
-
-                    // Activate this code in case of IsVisulaized == true.
-                    if (isUpdated && DisplayMode == DisplayMode.Visualize)
-                    { SolutionFound(this, QueenList); }
-
-                    ProgressValue = Math.Round(100.0 * solutions.Count / maxSolutionSize);
-                    return false;
-                }
-
-                QueenList[row] = FindPos(row);
-                if (QueenList[row] == -1)
-                {
-                    return false;
-                }
-
-                return FindSolsRec((sbyte)(row + 1)) || FindSolsRec(row);
-            }
 
             // Recursive call to start the simulation
-            FindSolsRec(0);
+            SolveRec(0, solutions, mode);
 
             return solutions
                     .Select((s, index) => new Solution(s, index + 1));
         }
+
+        private bool SolveRec(sbyte colNo, HashSet<sbyte[]> solutions, SolutionMode mode)
+        {
+            var maxSolutionSize = Utility.FindSolutionSize(BoardSize, mode);
+
+            if (CancelSolver)
+            { return false; }
+
+            if (DisplayMode == DisplayMode.Visualize)
+            {
+                OnQueenPlaced(QueenList);
+                Thread.Sleep(DelayInMilliseconds);
+            }
+
+            if (mode == SolutionMode.Single && solutions.Count == 1)
+            { return true; }
+
+            if (colNo == -1)
+            { return false; }
+
+            // Here a new solution is found.
+            if (colNo == BoardSize)
+            {
+                var isUpdated = UpdateSols(QueenList, solutions, mode);
+
+                // Activate this code in case of IsVisulaized == true.
+                if (isUpdated && DisplayMode == DisplayMode.Visualize)
+                { SolutionFound(this, QueenList); }
+
+                ProgressValue = Math.Round(100.0 * solutions.Count / maxSolutionSize);
+                return false;
+            }
+
+            QueenList[colNo] = LocateQueen(colNo, solutions, mode);
+            if (QueenList[colNo] == -1)
+            {
+                return false;
+            }
+
+            return SolveRec((sbyte)(colNo + 1), solutions, mode) || SolveRec(colNo, solutions, mode);
+        }
+
+        // Locate Queen
+        private sbyte LocateQueen(sbyte colNo, HashSet<sbyte[]> solutions, SolutionMode mode)
+        {
+            var isHalfSizeReachedMultSol = colNo == HalfSize && solutions.Count > 0 &&
+                Array.IndexOf<sbyte>(QueenList, 0, 0, HalfSize) == -1 && mode != SolutionMode.Single;
+
+            if (isHalfSizeReachedMultSol)
+            { return -1; }
+
+            for (var pos = (sbyte)(QueenList[colNo] + 1); pos < BoardSize; pos++)
+            {
+                var isValid = true;
+                for (var j = 0; j < colNo; j++)
+                {
+                    var lhs = Math.Abs(pos - QueenList[j]);
+                    var rhs = Math.Abs(colNo - j);
+                    if (0 != lhs && lhs != rhs)
+                    { continue; }
+
+                    isValid = false;
+                    break;
+                }
+
+                if (isValid)
+                { return pos; }
+            }
+
+            return -1;
+        }
+
         #endregion PrivateMethods
 
         #region PrivateFields
