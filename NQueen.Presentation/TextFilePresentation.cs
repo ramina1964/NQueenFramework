@@ -1,7 +1,7 @@
 ﻿using NQueen.Common;
 using NQueen.Common.Enum;
+using NQueen.Common.Interface;
 using NQueen.Common.Properties;
-using NQueen.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;

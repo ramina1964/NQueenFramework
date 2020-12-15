@@ -58,8 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISimulationResults.cs" />
-    <Compile Include="ISolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -89,9 +87,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NQueen.Common\NQueen.Shared.csproj">
+    <ProjectReference Include="..\NQueen.Common\NQueen.Common.csproj">
       <Project>{15330702-6614-4CBB-9CF4-42975A41FBD4}</Project>
-      <Name>NQueen.Shared</Name>
+      <Name>NQueen.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

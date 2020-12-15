@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using NQueen.Model;
+using NQueen.Common.Interface;
 
 namespace NQueen.GUI.ViewModel
 {

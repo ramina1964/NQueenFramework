@@ -1,4 +1,5 @@
 ﻿using NQueen.Common;
+using NQueen.Common.Interface;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;

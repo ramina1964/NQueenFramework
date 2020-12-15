@@ -73,9 +73,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NQueen.Common\NQueen.Shared.csproj">
+    <ProjectReference Include="..\NQueen.Common\NQueen.Common.csproj">
       <Project>{15330702-6614-4CBB-9CF4-42975A41FBD4}</Project>
-      <Name>NQueen.Shared</Name>
+      <Name>NQueen.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\NQueen.Model\NQueen.Model.csproj">
       <Project>{105b3286-daea-4f25-9640-16f26f6cd160}</Project>

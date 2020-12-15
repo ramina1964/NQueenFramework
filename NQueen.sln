@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQueen.Main", "NQueen.GUI\NQueen.Main.csproj", "{090397BF-3C21-48B9-9978-A05A6D7FC230}"
 EndProject
@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tasks", "Tasks", "{BD8E9A3C
 		ToDo.txt = ToDo.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQueen.Shared", "NQueen.Common\NQueen.Shared.csproj", "{15330702-6614-4CBB-9CF4-42975A41FBD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQueen.Common", "NQueen.Common\NQueen.Common.csproj", "{15330702-6614-4CBB-9CF4-42975A41FBD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
