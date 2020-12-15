@@ -125,8 +125,7 @@ namespace NQueen.Model
             QueenList = Enumerable.Repeat((sbyte)-1, BoardSize).ToArray();
             DisplayMode = displayMode;
 
-            int solutionSize = Utility.FindSolutionSize(BoardSize, SolutionMode);
-
+            var solutionSize = Utility.FindSolutionSize(BoardSize, SolutionMode);
             Solutions = new ObservableCollection<Solution>(new List<Solution>(solutionSize));
             CancelSolver = false;
         }
@@ -175,8 +174,6 @@ namespace NQueen.Model
 
         private bool SolveRec(sbyte colNo, HashSet<sbyte[]> solutions, SolutionMode mode)
         {
-            int maxSolutionSize = Utility.FindSolutionSize(BoardSize, mode);
-
             if (CancelSolver)
             { return false; }
 
@@ -201,7 +198,7 @@ namespace NQueen.Model
                 if (isUpdated && DisplayMode == DisplayMode.Visualize)
                 { SolutionFound(this, QueenList); }
 
-                ProgressValue = Math.Round(100.0 * solutions.Count / maxSolutionSize);
+                ProgressValue = Math.Round(100.0 * QueenList[0] / BoardSize);
                 return false;
             }
 

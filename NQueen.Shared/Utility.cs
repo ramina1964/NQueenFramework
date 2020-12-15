@@ -11,7 +11,7 @@ namespace NQueen.Shared.Utility
 
         public static IEnumerable<sbyte[]> GetSymmSols(IReadOnlyList<sbyte> solution)
         {
-            sbyte boardSize = (sbyte) solution.Count;
+            sbyte boardSize = (sbyte)solution.Count;
             sbyte[] symmToMidHorizontal = new sbyte[boardSize];
             sbyte[] symmToMidVertical = new sbyte[boardSize];
             sbyte[] symmToMainDiag = new sbyte[boardSize];
@@ -43,14 +43,12 @@ namespace NQueen.Shared.Utility
             };
         }
 
-        public static int FindSolutionSize(sbyte boardSize, SolutionMode solutionMode)
-        {
-            return (solutionMode == SolutionMode.Single)
+        public static int FindSolutionSize(sbyte boardSize, SolutionMode solutionMode) =>
+            (solutionMode == SolutionMode.Single)
                 ? 1
                 : (solutionMode == SolutionMode.Unique)
                 ? FindSolutionSizeUnique(boardSize)
                 : FindSolutionSizeAll(boardSize);
-        }
 
         public static string SolutionTitle(SolutionMode solutionMode)
         {
