@@ -1,4 +1,4 @@
-﻿using NQueen.Common.Interface;
+﻿using NQueen.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
