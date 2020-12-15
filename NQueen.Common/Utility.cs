@@ -11,35 +11,35 @@ namespace NQueen.Common
 
         public static IEnumerable<sbyte[]> GetSymmSols(IReadOnlyList<sbyte> solution)
         {
-            int boardSize = solution.Count;
-            sbyte[] midLineHorizontal = new sbyte[boardSize];
-            sbyte[] midLineVertical = new sbyte[boardSize];
-            sbyte[] diagonalToUpperRight = new sbyte[boardSize];
-            sbyte[] diagonalToUpperLeft = new sbyte[boardSize];
-            sbyte[] counter90 = new sbyte[boardSize];
-            sbyte[] counter180 = new sbyte[boardSize];
-            sbyte[] counter270 = new sbyte[boardSize];
+            sbyte boardSize = (sbyte) solution.Count;
+            sbyte[] symmToMidHorizontal = new sbyte[boardSize];
+            sbyte[] symmToMidVertical = new sbyte[boardSize];
+            sbyte[] symmToMainDiag = new sbyte[boardSize];
+            sbyte[] symmToBiDiag = new sbyte[boardSize];
+            sbyte[] rotCounter90 = new sbyte[boardSize];
+            sbyte[] rotCounter180 = new sbyte[boardSize];
+            sbyte[] rotCounter270 = new sbyte[boardSize];
 
             for (sbyte j = 0; j < boardSize; j++)
             {
                 sbyte index1 = (sbyte)(boardSize - j - 1);
                 sbyte index2 = (sbyte)(boardSize - solution[j] - 1);
 
-                midLineHorizontal[index1] = solution[j];
-                counter180[index1] = midLineVertical[j] = index2;
-                counter270[solution[j]] = diagonalToUpperRight[index2] = index1;
-                counter90[index2] = diagonalToUpperLeft[solution[j]] = j;
+                symmToMidHorizontal[index1] = solution[j];
+                rotCounter90[index2] = symmToMainDiag[solution[j]] = j;
+                rotCounter180[index1] = symmToMidVertical[j] = index2;
+                rotCounter270[solution[j]] = symmToBiDiag[index2] = index1;
             }
 
             return new HashSet<sbyte[]>
             {
-                midLineVertical,
-                diagonalToUpperRight,
-                diagonalToUpperLeft,
-                counter90,
-                counter180,
-                counter270,
-                midLineHorizontal
+                symmToMidVertical,
+                symmToMidHorizontal,
+                symmToMainDiag,
+                symmToBiDiag,
+                rotCounter90,
+                rotCounter180,
+                rotCounter270,
             };
         }
 
@@ -52,7 +52,43 @@ namespace NQueen.Common
                 : FindSolutionSizeAll(boardSize);
         }
 
-        public static int FindSolutionSizeUnique(sbyte boardSize)
+        public static string SolutionTitle(SolutionMode solutionMode)
+        {
+            switch (solutionMode)
+            {
+                case SolutionMode.Single:
+                    return "No. of Solutions";
+
+                case SolutionMode.Unique:
+                    return $"No. of Unique Solutions";
+
+                case SolutionMode.All:
+                    return $"No. of All Solutions";
+
+                default:
+                    throw new MissingFieldException("Non-Existent Enum Value!");
+            }
+        }
+
+        public static string SolutionTitle(SolutionMode solutionMode, int noOfSolutions)
+        {
+            if (solutionMode == SolutionMode.Single)
+            { return "Solution:"; }
+
+            if (noOfSolutions <= MaxNoOfSolutionsInOutput)
+            {
+                return (solutionMode == SolutionMode.All)
+                 ? $"List of All Solution(s), Included Symmetrical Ones:"
+                 : $"List of Unique Solution(s), Excluded Symmetrical Ones:";
+            }
+
+            // Here is: NoOfSolutions > MaxNoOfSolutionsInOutput
+            return (solutionMode == SolutionMode.All)
+                ? $"List of First {MaxNoOfSolutionsInOutput} Solution(s), May Include Symmetrical Ones:"
+                : $"List of First {MaxNoOfSolutionsInOutput} Unique Solution(s), Excluded Symmetrical Ones:";
+        }
+
+        private static int FindSolutionSizeUnique(sbyte boardSize)
         {
             switch (boardSize)
             {
@@ -95,7 +131,7 @@ namespace NQueen.Common
             }
         }
 
-        public static int FindSolutionSizeAll(sbyte boardSize)
+        private static int FindSolutionSizeAll(sbyte boardSize)
         {
             switch (boardSize)
             {
@@ -136,42 +172,6 @@ namespace NQueen.Common
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        public static string SolutionTitle(SolutionMode solutionMode)
-        {
-            switch (solutionMode)
-            {
-                case SolutionMode.Single:
-                    return "No. of Solutions";
-
-                case SolutionMode.Unique:
-                    return $"No. of Unique Solutions";
-
-                case SolutionMode.All:
-                    return $"No. of All Solutions";
-
-                default:
-                    throw new MissingFieldException("Non-Existent Enum Value!");
-            }
-        }
-
-        public static string SolutionTitle(SolutionMode solutionMode, int noOfSolutions)
-        {
-            if (solutionMode == SolutionMode.Single)
-            { return "Solution:"; }
-
-            if (noOfSolutions <= MaxNoOfSolutionsInOutput)
-            {
-                return (solutionMode == SolutionMode.All)
-                 ? $"List of All Solution(s), Included Symmetrical Ones:"
-                 : $"List of Unique Solution(s), Excluded Symmetrical Ones:";
-            }
-
-            // Here is: NoOfSolutions > MaxNoOfSolutionsInOutput
-            return (solutionMode == SolutionMode.All)
-                ? $"List of First {MaxNoOfSolutionsInOutput} Solution(s), May Include Symmetrical Ones:"
-                : $"List of First {MaxNoOfSolutionsInOutput} Unique Solution(s), Excluded Symmetrical Ones:";
         }
     }
 }
