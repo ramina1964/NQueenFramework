@@ -8,7 +8,10 @@ namespace NQueen.GUI.View
 {
     public class ChessboardGrid : Grid
     {
-        public ChessboardGrid(sbyte size) => Size = size;
+        public ChessboardGrid(sbyte size)
+        {
+            Size = size;
+        }
 
         public int WindowHeight => 500;
 
@@ -27,21 +30,21 @@ namespace NQueen.GUI.View
         // Test of dynamic grid written in code - no Xaml
         public void CreateGrid()
         {
-            var width = new GridLength(WidthBorder);
-            var height = new GridLength(HeightBorder);
-            var grid = new Grid() { Height = WindowHeight, Width = WindowHeight };
+            GridLength width = new GridLength(WidthBorder);
+            GridLength height = new GridLength(HeightBorder);
+            Grid grid = new Grid() { Height = WindowHeight, Width = WindowHeight };
             for (sbyte i = 0; i < Size; i++)
             {
-                var column = new ColumnDefinition { Width = width, Tag = i };
-                var row = new RowDefinition { Height = height, Tag = i };
+                ColumnDefinition column = new ColumnDefinition { Width = width, Tag = i };
+                RowDefinition row = new RowDefinition { Height = height, Tag = i };
                 grid.ColumnDefinitions.Add(column);
                 grid.RowDefinitions.Add(row);
                 for (sbyte j = 0; j < Size; j++)
                 {
-                    var color = new SolidColorBrush(Colors.Wheat);
-                    var pos = new Position(i, j);
-                    var sq = new SquareViewModel(pos, color);
-                    var border = new Border
+                    SolidColorBrush color = new SolidColorBrush(Colors.Wheat);
+                    Position pos = new Position(i, j);
+                    SquareViewModel sq = new SquareViewModel(pos, color);
+                    Border border = new Border
                     {
                         Background = color,
                         Height = HeightBorder,

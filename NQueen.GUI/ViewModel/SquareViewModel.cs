@@ -36,7 +36,10 @@ namespace NQueen.GUI.ViewModel
             set => Set(ref _imagePath, value);
         }
 
-        public override string ToString() => $"{Position.RowNo}, {Position.ColumnNo}";
+        public override string ToString()
+        {
+            return $"{Position.RowNo}, {Position.ColumnNo}";
+        }
         #endregion PublicProperties
 
         #region PrivateFields

@@ -36,20 +36,22 @@ namespace NQueen.Presentation
 
         internal int NoOfSolutionsInOutput { get; }
 
-        public StringBuilder FormatSingleSolution(Solution solution) =>
-            new StringBuilder().Append($"{solution.Details}");
+        public StringBuilder FormatSingleSolution(Solution solution)
+        {
+            return new StringBuilder().Append($"{solution.Details}");
+        }
 
         public string Write2File(SolutionMode solutionMode)
         {
-            var topFolder = Environment.CurrentDirectory;
-            var subFolder = Path.Combine(topFolder, "Results");
-            var fileName = $"Board Size - {BoardSize}" + ".txt";
+            string topFolder = Environment.CurrentDirectory;
+            string subFolder = Path.Combine(topFolder, "Results");
+            string fileName = $"Board Size - {BoardSize}" + ".txt";
 
-            var dirInfo = Directory.Exists(subFolder)
+            DirectoryInfo dirInfo = Directory.Exists(subFolder)
                 ? new DirectoryInfo(subFolder)
                 : Directory.CreateDirectory(subFolder);
 
-            var filePath = Path.Combine(dirInfo.Name, fileName);
+            string filePath = Path.Combine(dirInfo.Name, fileName);
             File.WriteAllText(filePath, PrintFinalResults(solutionMode));
             return filePath;
         }
@@ -60,12 +62,12 @@ namespace NQueen.Presentation
             const int prefixLength = 8;
             const int counterPlaces = prefixLength - 28;
 
-            var title = Utility.SolutionTitle(solutionMode, NoOfSolutions);
-            var sb = new StringBuilder().AppendLine(title);
+            string title = Utility.SolutionTitle(solutionMode, NoOfSolutions);
+            StringBuilder sb = new StringBuilder().AppendLine(title);
 
-            for (var index = 0; index < NoOfSolutionsInOutput; index++)
+            for (int index = 0; index < NoOfSolutionsInOutput; index++)
             {
-                var solTitle = $"{prefix,0} {index + 1,counterPlaces}";
+                string solTitle = $"{prefix,0} {index + 1,counterPlaces}";
                 sb.Append(solTitle).Append(FormatSingleSolution(Solutions[index]) + "\n");
             }
 
@@ -80,7 +82,7 @@ namespace NQueen.Presentation
             const int decimalPlaces = 2;
             const int placeHolderInt = 20;
 
-            var sb = new StringBuilder().AppendLine()
+            StringBuilder sb = new StringBuilder().AppendLine()
                 .AppendLine("Summary of Results:")
                 .AppendLine($"{"Date and Time",placeHolderText}{DateTime.Now,placeHolderInt}");
 
@@ -96,7 +98,7 @@ namespace NQueen.Presentation
                       : $"{"No. of Unique Solutions",placeHolderText}{NoOfSolutions,placeHolderInt}");
             }
 
-            var timeInSec = Math.Round(ElapsedTimeInSec, decimalPlaces);
+            double timeInSec = Math.Round(ElapsedTimeInSec, decimalPlaces);
             sb.AppendLine($"{"Elapsed Time (s)",placeHolderText}{timeInSec,placeHolderInt}");
 
             return sb;
@@ -104,7 +106,7 @@ namespace NQueen.Presentation
 
         private string PrintFinalResults(SolutionMode solutionMode)
         {
-            var result = new StringBuilder()
+            StringBuilder result = new StringBuilder()
                         .Append(FormatSolutionTitle(solutionMode))
                         .Append(GetSummary(solutionMode))
                         .AppendLine();

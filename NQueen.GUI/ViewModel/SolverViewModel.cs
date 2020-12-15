@@ -35,7 +35,7 @@ namespace NQueen.GUI.ViewModel
         {
             get
             {
-                var firstOrDefault = _validation.Validate(this).Errors.FirstOrDefault(lol => lol.PropertyName == columnName);
+                ValidationFailure firstOrDefault = _validation.Validate(this).Errors.FirstOrDefault(lol => lol.PropertyName == columnName);
                 if (firstOrDefault != null)
                 { return _validation != null ? firstOrDefault.ErrorMessage : ""; }
 
@@ -47,11 +47,11 @@ namespace NQueen.GUI.ViewModel
         {
             get
             {
-                var results = _validation?.Validate(this);
+                ValidationResult results = _validation?.Validate(this);
                 if (results == null || !results.Errors.Any())
                     return string.Empty;
 
-                var errors = string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray());
+                string errors = string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray());
                 return errors;
             }
         }
@@ -115,7 +115,7 @@ namespace NQueen.GUI.ViewModel
             get => _solutionMode;
             set
             {
-                var isChanged = Set(ref _solutionMode, value);
+                bool isChanged = Set(ref _solutionMode, value);
                 if (!isChanged)
                 { return; }
 
@@ -144,7 +144,7 @@ namespace NQueen.GUI.ViewModel
             get => _displayMode;
             set
             {
-                var isChanged = Set(ref _displayMode, value);
+                bool isChanged = Set(ref _displayMode, value);
                 if (!isChanged)
                 { return; }
 
@@ -173,7 +173,7 @@ namespace NQueen.GUI.ViewModel
             get => _boardSizeText;
             set
             {
-                var isChanged = Set(ref _boardSizeText, value);
+                bool isChanged = Set(ref _boardSizeText, value);
                 if (!isChanged)
                 { return; }
 
@@ -257,7 +257,7 @@ namespace NQueen.GUI.ViewModel
             get => _isSingleRunning;
             set
             {
-                var isChanged = Set(ref _isSingleRunning, value);
+                bool isChanged = Set(ref _isSingleRunning, value);
                 if (isChanged)
                 {
                     CancelCommand.RaiseCanExecuteChanged();
@@ -276,7 +276,7 @@ namespace NQueen.GUI.ViewModel
             get => _isMultipleRunning;
             set
             {
-                var isChanged = Set(ref _isMultipleRunning, value);
+                bool isChanged = Set(ref _isMultipleRunning, value);
                 if (isChanged)
                 {
                     CancelCommand.RaiseCanExecuteChanged();
@@ -350,8 +350,8 @@ namespace NQueen.GUI.ViewModel
 
         private void Queens_SolutionFound(object sender, sbyte[] e)
         {
-            var id = Solutions.Count + 1;
-            var sol = new Solution(e, id);
+            int id = Solutions.Count + 1;
+            Solution sol = new Solution(e, id);
 
             Application
                 .Current
@@ -363,8 +363,8 @@ namespace NQueen.GUI.ViewModel
 
         private void Queens_QueenPlaced(object sender, sbyte[] e)
         {
-            var sol = new Solution(e, 1);
-            var positions = sol
+            Solution sol = new Solution(e, 1);
+            List<Position> positions = sol
                             .QueenList.Where(el => el > -1)
                             .Select((item, index) => new Position((sbyte)index, item)).ToList();
 
@@ -432,7 +432,7 @@ namespace NQueen.GUI.ViewModel
 
         private void ExtractCorrectNoOfSols()
         {
-            var sols = SimulationResults
+            List<Solution> sols = SimulationResults
                         .Solutions
                         .Take(MaxNoOfSolutionsInOutput)
                         .ToList();
@@ -454,19 +454,28 @@ namespace NQueen.GUI.ViewModel
             }
         }
 
-        private bool CanSimulate() => IsValid && !IsSingleRunning && !IsMultipleRunning;
+        private bool CanSimulate()
+        {
+            return IsValid && !IsSingleRunning && !IsMultipleRunning;
+        }
 
-        private void Cancel() => Solver.CancelSolver = true;
+        private void Cancel()
+        {
+            Solver.CancelSolver = true;
+        }
 
-        private bool CanCancel() => IsSingleRunning || IsMultipleRunning;
+        private bool CanCancel()
+        {
+            return IsSingleRunning || IsMultipleRunning;
+        }
 
         private void Save()
         {
-            var results = new TextFilePresentation(SimulationResults);
-            var filePath = results.Write2File(SolutionMode);
+            TextFilePresentation results = new TextFilePresentation(SimulationResults);
+            string filePath = results.Write2File(SolutionMode);
 
-            var caption = Resources.TitleSaveResultsMessage;
-            var msg = String.Format(Resources.SaveResultsMessage, filePath);
+            string caption = Resources.TitleSaveResultsMessage;
+            string msg = string.Format(Resources.SaveResultsMessage, filePath);
             const MessageBoxButton button = MessageBoxButton.OK;
             const MessageBoxImage icon = MessageBoxImage.Information;
             MessageBox.Show(msg, caption, button, icon);
@@ -475,7 +484,10 @@ namespace NQueen.GUI.ViewModel
             SaveCommand.RaiseCanExecuteChanged();
         }
 
-        private bool CanSave() => !IsSingleRunning && !IsMultipleRunning && IsCalculated && SimulationResults?.NoOfSolutions > 0;
+        private bool CanSave()
+        {
+            return !IsSingleRunning && !IsMultipleRunning && IsCalculated && SimulationResults?.NoOfSolutions > 0;
+        }
         #endregion PrivateMethods
 
         #region PrivateFields

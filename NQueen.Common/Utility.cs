@@ -11,19 +11,19 @@ namespace NQueen.Common
 
         public static IEnumerable<sbyte[]> GetSymmSols(IReadOnlyList<sbyte> solution)
         {
-            var boardSize = solution.Count;
-            var midLineHorizontal = new sbyte[boardSize];
-            var midLineVertical = new sbyte[boardSize];
-            var diagonalToUpperRight = new sbyte[boardSize];
-            var diagonalToUpperLeft = new sbyte[boardSize];
-            var counter90 = new sbyte[boardSize];
-            var counter180 = new sbyte[boardSize];
-            var counter270 = new sbyte[boardSize];
+            int boardSize = solution.Count;
+            sbyte[] midLineHorizontal = new sbyte[boardSize];
+            sbyte[] midLineVertical = new sbyte[boardSize];
+            sbyte[] diagonalToUpperRight = new sbyte[boardSize];
+            sbyte[] diagonalToUpperLeft = new sbyte[boardSize];
+            sbyte[] counter90 = new sbyte[boardSize];
+            sbyte[] counter180 = new sbyte[boardSize];
+            sbyte[] counter270 = new sbyte[boardSize];
 
             for (sbyte j = 0; j < boardSize; j++)
             {
-                var index1 = (sbyte)(boardSize - j - 1);
-                var index2 = (sbyte)(boardSize - solution[j] - 1);
+                sbyte index1 = (sbyte)(boardSize - j - 1);
+                sbyte index2 = (sbyte)(boardSize - solution[j] - 1);
 
                 midLineHorizontal[index1] = solution[j];
                 counter180[index1] = midLineVertical[j] = index2;

@@ -7,7 +7,10 @@ namespace NQueen.GUI.ViewModel
     public class InputViewModel : AbstractValidator<SolverViewModel>
     {
         #region Constructors
-        public InputViewModel() => ValidationRules();
+        public InputViewModel()
+        {
+            ValidationRules();
+        }
         #endregion Constructors
 
         #region PrivateMethods

@@ -40,16 +40,16 @@ namespace NQueen.GUI.ViewModel
 
         public void CreateSquares(sbyte boardSize, IEnumerable<SquareViewModel> squares)
         {
-            var width = (int)WindowWidth / boardSize;
-            var height = width;
+            int width = (int)WindowWidth / boardSize;
+            int height = width;
 
-            var sqList = squares.ToList();
+            List<SquareViewModel> sqList = squares.ToList();
             for (sbyte i = 0; i < boardSize; i++)
             {
                 for (sbyte j = 0; j < boardSize; j++)
                 {
-                    var pos = new Position(i, j);
-                    var square = new SquareViewModel(pos, FindColor(pos))
+                    Position pos = new Position(i, j);
+                    SquareViewModel square = new SquareViewModel(pos, FindColor(pos))
                     {
                         ImagePath = null,
                         Height = height,
@@ -68,14 +68,16 @@ namespace NQueen.GUI.ViewModel
         #endregion PublicMethods
 
         #region PrivateMethods
-        private void ClearImages() =>
+        private void ClearImages()
+        {
             Squares
-                .ToList()
-                .ForEach(sq => sq.ImagePath = null);
+.ToList()
+.ForEach(sq => sq.ImagePath = null);
+        }
 
         private Brush FindColor(Position pos)
         {
-            var col = (pos.RowNo + pos.ColumnNo) % 2 == 1 ? Colors.Wheat : Colors.Brown;
+            Color col = (pos.RowNo + pos.ColumnNo) % 2 == 1 ? Colors.Wheat : Colors.Brown;
             return new SolidColorBrush(col);
         }
         #endregion PrivateMethods

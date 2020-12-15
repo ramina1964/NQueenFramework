@@ -28,7 +28,10 @@ namespace NQueen.Common
         public string Name { get; set; }
 
         public string Details { get; set; }
-        public sealed override string ToString() => $"No. {Id}";
+        public sealed override string ToString()
+        {
+            return $"No. {Id}";
+        }
 
         public sbyte[] QueenList { get; }
         #endregion PublicProperties
@@ -38,20 +41,20 @@ namespace NQueen.Common
         private string GetDetails()
         {
             const int noOfQueensPerLine = 40;
-            var noOfLines = (BoardSize % noOfQueensPerLine == 0) ?
+            int noOfLines = (BoardSize % noOfQueensPerLine == 0) ?
                 BoardSize / noOfQueensPerLine :
                 BoardSize / noOfQueensPerLine + 1;
 
-            var sb = new StringBuilder();
-            for (var lineNo = 0; lineNo < noOfLines; lineNo++)
+            StringBuilder sb = new StringBuilder();
+            for (int lineNo = 0; lineNo < noOfLines; lineNo++)
             {
-                var maxQueensInLastLine = (lineNo < noOfLines - 1 || BoardSize % noOfQueensPerLine == 0) ?
+                int maxQueensInLastLine = (lineNo < noOfLines - 1 || BoardSize % noOfQueensPerLine == 0) ?
                     noOfQueensPerLine :
                     Math.Min(BoardSize % noOfQueensPerLine, noOfQueensPerLine);
 
-                for (var posInLine = 0; posInLine < maxQueensInLastLine; posInLine++)
+                for (int posInLine = 0; posInLine < maxQueensInLastLine; posInLine++)
                 {
-                    var posNo = noOfQueensPerLine * lineNo + posInLine;
+                    int posNo = noOfQueensPerLine * lineNo + posInLine;
                     sb.Append($"({Positions[posNo].RowNo + 1,0:N0}, {Positions[posNo].ColumnNo + 1,0:N0})");
 
                     if (posNo < BoardSize - 1)

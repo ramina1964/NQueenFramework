@@ -23,17 +23,28 @@ namespace NQueen.Test
                 : GetAllSols(boardSize);
         }
 
-        public List<Solution> GetActual(sbyte boardSize, SolutionMode solutionMode) =>
-            Sut.GetSimulationResultsAsync(boardSize, solutionMode)
-            .Result
-            .Solutions
-            .ToList();
+        public List<Solution> GetActual(sbyte boardSize, SolutionMode solutionMode)
+        {
+            return Sut.GetSimulationResultsAsync(boardSize, solutionMode)
+.Result
+.Solutions
+.ToList();
+        }
 
-        public static List<Solution> GetSingleSol(sbyte boardSize) => singleSol[boardSize];
+        public static List<Solution> GetSingleSol(sbyte boardSize)
+        {
+            return singleSol[boardSize];
+        }
 
-        public static List<Solution> GetUniqueSols(sbyte boardSize) => uniqueSol[boardSize];
+        public static List<Solution> GetUniqueSols(sbyte boardSize)
+        {
+            return uniqueSol[boardSize];
+        }
 
-        public static List<Solution> GetAllSols(sbyte boardSize) => allSol[boardSize];
+        public static List<Solution> GetAllSols(sbyte boardSize)
+        {
+            return allSol[boardSize];
+        }
 
         private static readonly Dictionary<sbyte, List<Solution>> singleSol = new Dictionary<sbyte, List<Solution>>
         {

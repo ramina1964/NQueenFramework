@@ -12,8 +12,8 @@ namespace NQueen.Model
         public SimulationResults(IEnumerable<Solution> allSolutions)
         {
             Debug.Assert(allSolutions != null, "allSolutions != null");
-            var enumerable = allSolutions as IList<Solution> ?? allSolutions.ToList();
-            var sol = enumerable.FirstOrDefault();
+            IList<Solution> enumerable = allSolutions as IList<Solution> ?? allSolutions.ToList();
+            Solution sol = enumerable.FirstOrDefault();
             if (sol == null)
             {
                 NoOfSolutions = 0;
@@ -21,7 +21,7 @@ namespace NQueen.Model
             }
             else
             {
-                BoardSize = (sbyte) sol.Positions.Count;
+                BoardSize = (sbyte)sol.Positions.Count;
                 NoOfSolutions = enumerable.Count();
                 Solutions = new List<Solution>(enumerable);
             }

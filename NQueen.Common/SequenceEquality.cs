@@ -8,7 +8,10 @@ namespace NQueen.Common
         // Constant related to hash table
         internal const int HashConstant = 37;
 
-        public bool Equals(IEnumerable<T> x, IEnumerable<T> y) => x.SequenceEqual(y);
+        public bool Equals(IEnumerable<T> x, IEnumerable<T> y)
+        {
+            return x.SequenceEqual(y);
+        }
 
         public int GetHashCode(IEnumerable<T> seq)
         {
