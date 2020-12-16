@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
-using NUnit.Framework;
 using NQueen.Model;
 using NQueen.Shared.Enum;
+using NQueen.Shared.Utility;
+using NUnit.Framework;
+using System.Linq;
 
 namespace NQueen.Test
 {
@@ -40,8 +42,7 @@ namespace NQueen.Test
 
             // Assert
             _ = Actual.Count.Equals(Expected.Count);
-            Actual.Should()
-                .BeEquivalentTo(Expected, options => options.Excluding(s => s.Id).Excluding(s => s.Name));
+            Actual.Should().BeEquivalentTo(Expected);
         }
 
         [TestCase(4, SolutionMode.Unique), TestCase(5, SolutionMode.Unique), TestCase(6, SolutionMode.Unique)]
@@ -50,15 +51,19 @@ namespace NQueen.Test
         {
             // Arrange
             Sut = new Solver(boardSize);
+            System.Collections.Generic.List<sbyte[]> uniqueSol = GetExpected(boardSize, solutionMode);
             Expected = GetExpected(boardSize, solutionMode);
+            System.Collections.Generic.List<sbyte[]> allSymmSol = uniqueSol
+                          .SelectMany(s => Utility.GetSymmSols(s))
+                          .ToList();
 
             // Act
             Actual = GetActual(boardSize, solutionMode);
 
             // Assert
             _ = Actual.Count.Equals(Expected.Count);
-            Actual.Should()
-                .BeEquivalentTo(Expected, options => options.Excluding(s => s.Id).Excluding(s => s.Name));
+            Actual.Should().BeEquivalentTo(Expected);
+            Actual.Should().NotContain(allSymmSol);
         }
 
         [TestCase(1, SolutionMode.All), TestCase(4, SolutionMode.All), TestCase(5, SolutionMode.All)]
@@ -74,8 +79,7 @@ namespace NQueen.Test
 
             // Assert
             _ = Actual.Count.Equals(Expected.Count);
-            Actual.Should()
-                .BeEquivalentTo(Expected, options => options.Excluding(s => s.Id).Excluding(s => s.Name));
+            Actual.Should().BeEquivalentTo(Expected);
         }
         #endregion PublicTestMethods
     }

@@ -2,13 +2,12 @@
 using NQueen.Shared.Properties;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NQueen.Shared.Utility
 {
     public static class Utility
     {
-        public static int MaxNoOfSolutionsInOutput = Settings.Default.MaxNoOfSolutionsInOutput;
-
         public static IEnumerable<sbyte[]> GetSymmSols(IReadOnlyList<sbyte> solution)
         {
             sbyte boardSize = (sbyte)solution.Count;
@@ -31,7 +30,7 @@ namespace NQueen.Shared.Utility
                 rotCounter270[solution[j]] = symmToBiDiag[index2] = index1;
             }
 
-            return new HashSet<sbyte[]>
+            return new HashSet<sbyte[]>(new SequenceEquality<sbyte>())
             {
                 symmToMidVertical,
                 symmToMidHorizontal,
@@ -41,6 +40,14 @@ namespace NQueen.Shared.Utility
                 rotCounter180,
                 rotCounter270,
             };
+        }
+
+        public static List<sbyte[]> GetSymmSols(List<sbyte[]> solution)
+        {
+            var list = solution
+                       .SelectMany(s => GetSymmSols(s)).ToList();
+
+            return list;
         }
 
         public static int FindSolutionSize(sbyte boardSize, SolutionMode solutionMode) =>
@@ -85,6 +92,8 @@ namespace NQueen.Shared.Utility
                 ? $"List of First {MaxNoOfSolutionsInOutput} Solution(s), May Include Symmetrical Ones:"
                 : $"List of First {MaxNoOfSolutionsInOutput} Unique Solution(s), Excluded Symmetrical Ones:";
         }
+
+        public static int MaxNoOfSolutionsInOutput = Settings.Default.MaxNoOfSolutionsInOutput;
 
         private static int FindSolutionSizeUnique(sbyte boardSize)
         {
