@@ -11,13 +11,13 @@ namespace NQueen.Shared.Utility
         public static IEnumerable<sbyte[]> GetSymmSols(IReadOnlyList<sbyte> solution)
         {
             sbyte boardSize = (sbyte)solution.Count;
-            sbyte[] symmToMidHorizontal = new sbyte[boardSize];
-            sbyte[] symmToMidVertical = new sbyte[boardSize];
-            sbyte[] symmToMainDiag = new sbyte[boardSize];
-            sbyte[] symmToBiDiag = new sbyte[boardSize];
-            sbyte[] rotCounter90 = new sbyte[boardSize];
-            sbyte[] rotCounter180 = new sbyte[boardSize];
-            sbyte[] rotCounter270 = new sbyte[boardSize];
+            var symmToMidHorizontal = new sbyte[boardSize];
+            var symmToMidVertical = new sbyte[boardSize];
+            var symmToMainDiag = new sbyte[boardSize];
+            var symmToBiDiag = new sbyte[boardSize];
+            var rotCounter90 = new sbyte[boardSize];
+            var rotCounter180 = new sbyte[boardSize];
+            var rotCounter270 = new sbyte[boardSize];
 
             for (sbyte j = 0; j < boardSize; j++)
             {
@@ -42,20 +42,15 @@ namespace NQueen.Shared.Utility
             };
         }
 
-        public static List<sbyte[]> GetSymmSols(List<sbyte[]> solution)
-        {
-            var list = solution
-                       .SelectMany(s => GetSymmSols(s)).ToList();
-
-            return list;
-        }
+        public static List<sbyte[]> GetSymmSols(List<sbyte[]> solution) =>
+            solution.SelectMany(s => GetSymmSols(s)).ToList();
 
         public static int FindSolutionSize(sbyte boardSize, SolutionMode solutionMode) =>
             (solutionMode == SolutionMode.Single)
                 ? 1
                 : (solutionMode == SolutionMode.Unique)
-                ? FindSolutionSizeUnique(boardSize)
-                : FindSolutionSizeAll(boardSize);
+                ? GetSolutionSizeUnique(boardSize)
+                : GetSolutionSizeAll(boardSize);
 
         public static string SolutionTitle(SolutionMode solutionMode)
         {
@@ -95,7 +90,7 @@ namespace NQueen.Shared.Utility
 
         public static int MaxNoOfSolutionsInOutput = Settings.Default.MaxNoOfSolutionsInOutput;
 
-        private static int FindSolutionSizeUnique(sbyte boardSize)
+        private static int GetSolutionSizeUnique(sbyte boardSize)
         {
             switch (boardSize)
             {
@@ -138,7 +133,7 @@ namespace NQueen.Shared.Utility
             }
         }
 
-        private static int FindSolutionSizeAll(sbyte boardSize)
+        private static int GetSolutionSizeAll(sbyte boardSize)
         {
             switch (boardSize)
             {

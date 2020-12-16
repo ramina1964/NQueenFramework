@@ -6,14 +6,8 @@ namespace NQueen.Main.ViewModel
 {
     public class InputViewModel : AbstractValidator<SolverViewModel>
     {
-        #region Constructors
-        public InputViewModel()
-        {
-            ValidationRules();
-        }
-        #endregion Constructors
+        public InputViewModel() => ValidationRules();
 
-        #region PrivateMethods
         private void ValidationRules()
         {
             RuleFor(q => q.BoardSizeText)
@@ -47,6 +41,5 @@ namespace NQueen.Main.ViewModel
                 .WithMessage(q => string.Format(Resources.BoardSizeTooLargeAllCaseError,
                         nameof(q.BoardSize), nameof(Resources.AllSolutions), Settings.Default.MaxBoardSizeForAllCase));
         }
-        #endregion PrivateMethods
     }
 }

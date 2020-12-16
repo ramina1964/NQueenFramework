@@ -48,7 +48,7 @@ namespace NQueen.Main.ViewModel
             {
                 for (sbyte j = 0; j < boardSize; j++)
                 {
-                    Position pos = new Position(i, j);
+                    var pos = new Position(i, j);
                     SquareViewModel square = new SquareViewModel(pos, FindColor(pos))
                     {
                         ImagePath = null,
@@ -71,13 +71,17 @@ namespace NQueen.Main.ViewModel
         private void ClearImages()
         {
             Squares
-.ToList()
-.ForEach(sq => sq.ImagePath = null);
+                .ToList()
+                .ForEach(sq => sq.ImagePath = null);
         }
 
         private Brush FindColor(Position pos)
         {
-            Color col = (pos.RowNo + pos.ColumnNo) % 2 == 1 ? Colors.Wheat : Colors.Brown;
+            var col =
+                (pos.RowNo + pos.ColumnNo) % 2 == 1
+                ? Colors.Wheat
+                : Colors.Brown;
+            
             return new SolidColorBrush(col);
         }
         #endregion PrivateMethods

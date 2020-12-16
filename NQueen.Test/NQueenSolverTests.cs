@@ -15,12 +15,16 @@ namespace NQueen.Test
         [TestCase(2, SolutionMode.All), TestCase(3, SolutionMode.All)]
         public void Should_generate_empty_list_of_solutions(sbyte boardSize, SolutionMode solutionMode)
         {
+            // Arrange
+            Sut = new Solver(boardSize);
+            Expected = GetExpected(boardSize, solutionMode);
+
             // Act
             Actual = GetActual(boardSize, solutionMode);
 
             // Assert
-            Actual.Should().BeEmpty();
-            Actual.Should().HaveCount(0);
+            _ = Actual.Count.Equals(Expected.Count);
+            Actual.Should().BeEquivalentTo(Expected);
         }
 
         [TestCase(1, SolutionMode.Single), TestCase(1, SolutionMode.Unique), TestCase(1, SolutionMode.All)]

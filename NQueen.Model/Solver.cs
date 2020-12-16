@@ -16,10 +16,7 @@ namespace NQueen.Model
     public class Solver : ViewModelBase, ISolver
     {
         #region Constructor
-        public Solver(sbyte boardSize, DisplayMode DisplayMode = DisplayMode.Hide)
-        {
-            Initialize(boardSize, DisplayMode);
-        }
+        public Solver(sbyte boardSize, DisplayMode DisplayMode = DisplayMode.Hide) => Initialize(boardSize, DisplayMode);
         #endregion Constructor
 
         #region ISolverInterface
@@ -50,11 +47,11 @@ namespace NQueen.Model
 
         public ISimulationResults GetResults(SolutionMode solutionMode)
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            List<Solution> solutions = MainSolve(solutionMode).ToList();
+            var stopwatch = Stopwatch.StartNew();
+            var solutions = MainSolve(solutionMode).ToList();
             stopwatch.Stop();
-            double timeInSec = (double)stopwatch.ElapsedMilliseconds / 1000;
-            double elapsedTimeInSec = Math.Round(timeInSec, 1);
+            var timeInSec = (double)stopwatch.ElapsedMilliseconds / 1000;
+            var elapsedTimeInSec = Math.Round(timeInSec, 1);
 
             return new SimulationResults(solutions)
             {
@@ -132,7 +129,7 @@ namespace NQueen.Model
 
         private bool UpdateSols(IEnumerable<sbyte> solution, HashSet<sbyte[]> solutions, SolutionMode solutionMode)
         {
-            sbyte[] queens = solution.ToArray();
+            var queens = solution.ToArray();
 
             // If solutionMode == SolutionMode.Single, then we are done.
             if (solutionMode == SolutionMode.Single)

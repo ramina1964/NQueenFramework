@@ -6,16 +6,16 @@ namespace NQueen.Main.ViewModel
 {
     public class SquareViewModel : ViewModelBase
     {
-        #region Constructor
         public SquareViewModel(Position pos, Brush color)
         {
             Color = color;
             Position = pos;
         }
-        #endregion Constructor
 
         #region PublicProperties
+        
         public Brush Color { get; set; }
+
         public Position Position { get; set; }
 
         public double Width
@@ -40,6 +40,7 @@ namespace NQueen.Main.ViewModel
         {
             return $"{Position.RowNo}, {Position.ColumnNo}";
         }
+        
         #endregion PublicProperties
 
         #region PrivateFields

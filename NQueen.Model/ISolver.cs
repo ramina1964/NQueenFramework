@@ -7,7 +7,6 @@ using System.Windows;
 namespace NQueen.Model
 {
     public delegate void SolutionFoundDelegate(object sender, sbyte[] e);
-
     public delegate void QueenPlacedDelegate(object sender, sbyte[] e);
 
     public interface ISolver
@@ -29,6 +28,7 @@ namespace NQueen.Model
         event QueenPlacedDelegate QueenPlaced;
 
         event SolutionFoundDelegate SolutionFound;
+
         Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize, SolutionMode solutionMode);
     }
 }

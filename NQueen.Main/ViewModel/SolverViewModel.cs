@@ -60,8 +60,11 @@ namespace NQueen.Main.ViewModel
 
         #region PublicProperties
         public RelayCommand SimulateCommand { get; set; }
+
         public RelayCommand CancelCommand { get; set; }
+
         public RelayCommand SaveCommand { get; set; }
+
         public int MaxNoOfSolutionsInOutput => Settings.Default.MaxNoOfSolutionsInOutput;
 
         public IEnumerable<SolutionMode> EnumSolutionToItem
@@ -132,7 +135,7 @@ namespace NQueen.Main.ViewModel
 
                 if (IsValid)
                 {
-                    IsCalculated = false;
+                    IsResultsReady = false;
                     SimulateCommand?.RaiseCanExecuteChanged();
                     SaveCommand?.RaiseCanExecuteChanged();
                     UpdateGui();
@@ -152,14 +155,12 @@ namespace NQueen.Main.ViewModel
                 if (Solver != null)
                 { Solver.DisplayMode = value; }
 
-                //IsVisualized = DisplayMode.Visualize == value;
-                //RaisePropertyChanged(nameof(BoardSizeText));
                 ValidationResult = _validation.Validate(this);
                 IsValid = ValidationResult.IsValid;
 
                 if (IsValid)
                 {
-                    IsCalculated = false;
+                    IsResultsReady = false;
                     IsVisualized = DisplayMode.Visualize == value;
                     RaisePropertyChanged(nameof(BoardSizeText));
                     SimulateCommand?.RaiseCanExecuteChanged();
@@ -183,7 +184,7 @@ namespace NQueen.Main.ViewModel
 
                 if (IsValid)
                 {
-                    IsCalculated = false;
+                    IsResultsReady = false;
                     Set(ref _boardSize, sbyte.Parse(_boardSizeText));
                     RaisePropertyChanged(nameof(BoardSize));
                     SaveCommand?.RaiseCanExecuteChanged();
@@ -200,6 +201,7 @@ namespace NQueen.Main.ViewModel
         }
 
         public ValidationResult ValidationResult { get; set; }
+
         public string ResultTitle => Utility.SolutionTitle(SolutionMode);
 
         public bool IsValid
@@ -252,7 +254,6 @@ namespace NQueen.Main.ViewModel
             set => Set(ref _elapsedTime, value);
         }
 
-        // This property returns true if a SingleSolution is running.
         public bool IsSingleRunning
         {
             get => _isSingleRunning;
@@ -267,11 +268,10 @@ namespace NQueen.Main.ViewModel
                 }
 
                 // Also set value of IsFinished Property as well as notify all listeners.
-                Set(nameof(IsFinished), ref _isFinished, !value, true);
+                Set(nameof(IsSimFinished), ref _isFinished, !value, true);
             }
         }
 
-        // This property returns true if a SingleSolution is running.
         public bool IsMultipleRunning
         {
             get => _isMultipleRunning;
@@ -286,12 +286,11 @@ namespace NQueen.Main.ViewModel
                 }
 
                 // Also set value of IsFinished Property as well as notify all listeners.
-                Set(nameof(IsFinished), ref _isFinished, !value, true);
+                Set(nameof(IsSimFinished), ref _isFinished, !value, true);
             }
         }
 
-        // This property returns false if a simulation is running, otherwise true, i.e., the opposite of IsRunning.
-        public bool IsFinished
+        public bool IsSimFinished
         {
             get => _isFinished;
             set => Set(ref _isFinished, value);
@@ -309,8 +308,7 @@ namespace NQueen.Main.ViewModel
             set => Set(ref _canEditSolutionMode, value);
         }
 
-        // Returns true if the results of simulation with new parameters are ready, false otherwise.
-        public bool IsCalculated
+        public bool IsResultsReady
         {
             get => _isCalculated;
             set => Set(ref _isCalculated, value);
@@ -351,7 +349,7 @@ namespace NQueen.Main.ViewModel
 
         private void Queens_SolutionFound(object sender, sbyte[] e)
         {
-            int id = Solutions.Count + 1;
+            var id = Solutions.Count + 1;
             Solution sol = new Solution(e, id);
 
             Application
@@ -380,12 +378,10 @@ namespace NQueen.Main.ViewModel
             SimulationResults = await Solver
                                 .GetSimulationResultsAsync(BoardSize, SolutionMode);
 
-            // Fetch MaxNoOfSolutionsInOutput and add it to Solutions.
             ExtractCorrectNoOfSols();
-
             UpdateSummary();
 
-            IsCalculated = true;
+            IsResultsReady = true;
             SaveCommand.RaiseCanExecuteChanged();
 
             NoOfSolutions = $"{SimulationResults.NoOfSolutions,0:N0}";
@@ -443,32 +439,25 @@ namespace NQueen.Main.ViewModel
             {
                 Solutions.Clear();
 
-                sols
+                sols 
                 .ForEach(sol => Solutions.Add(sol));
             }
 
             // In case of activated visualization, just add a no. of MaxNoOfSolutionsInOutput to the solutions.
             else
             {
-                sols
-                    .ForEach(sol => Solutions.Add(sol));
+                sols.ForEach(sol => Solutions.Add(sol));
             }
         }
 
-        private bool CanSimulate()
-        {
-            return IsValid && !IsSingleRunning && !IsMultipleRunning;
-        }
+        private bool CanSimulate => IsValid && !IsSingleRunning && !IsMultipleRunning;
 
         private void Cancel()
         {
             Solver.CancelSolver = true;
         }
 
-        private bool CanCancel()
-        {
-            return IsSingleRunning || IsMultipleRunning;
-        }
+        private bool CanCancel() => IsSingleRunning || IsMultipleRunning;
 
         private void Save()
         {
@@ -481,14 +470,13 @@ namespace NQueen.Main.ViewModel
             const MessageBoxImage icon = MessageBoxImage.Information;
             MessageBox.Show(msg, caption, button, icon);
 
-            IsCalculated = false;
+            IsResultsReady = false;
             SaveCommand.RaiseCanExecuteChanged();
         }
 
-        private bool CanSave()
-        {
-            return !IsSingleRunning && !IsMultipleRunning && IsCalculated && SimulationResults?.NoOfSolutions > 0;
-        }
+        private bool CanSave() =>
+            !IsSingleRunning && !IsMultipleRunning && IsResultsReady && SimulationResults?.NoOfSolutions > 0;
+
         #endregion PrivateMethods
 
         #region PrivateFields
