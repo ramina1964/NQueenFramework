@@ -36,7 +36,7 @@ namespace NQueen.Main.ViewModel
         {
             get
             {
-                ValidationFailure firstOrDefault = _validation.Validate(this).Errors.FirstOrDefault(lol => lol.PropertyName == columnName);
+                var firstOrDefault = _validation.Validate(this).Errors.FirstOrDefault(lol => lol.PropertyName == columnName);
                 if (firstOrDefault != null)
                 { return _validation != null ? firstOrDefault.ErrorMessage : ""; }
 
@@ -48,7 +48,7 @@ namespace NQueen.Main.ViewModel
         {
             get
             {
-                ValidationResult results = _validation?.Validate(this);
+                var results = _validation?.Validate(this);
                 if (results == null || !results.Errors.Any())
                     return string.Empty;
 
@@ -350,7 +350,7 @@ namespace NQueen.Main.ViewModel
         private void Queens_SolutionFound(object sender, sbyte[] e)
         {
             var id = Solutions.Count + 1;
-            Solution sol = new Solution(e, id);
+            var sol = new Solution(e, id);
 
             Application
                 .Current
@@ -362,9 +362,9 @@ namespace NQueen.Main.ViewModel
 
         private void Queens_QueenPlaced(object sender, sbyte[] e)
         {
-            Solution sol = new Solution(e, 1);
-            List<Position> positions = sol
-                            .QueenList.Where(el => el > -1)
+            var sol = new Solution(e, 1);
+            var positions = sol
+                            .QueenList.Where(q => q > -1)
                             .Select((item, index) => new Position((sbyte)index, item)).ToList();
 
             Chessboard.PlaceQueens(positions);
@@ -376,7 +376,7 @@ namespace NQueen.Main.ViewModel
 
             UpdateGui();
             SimulationResults = await Solver
-                                .GetSimulationResultsAsync(BoardSize, SolutionMode);
+                                .GetSimulationResultsAsync(BoardSize);
 
             ExtractCorrectNoOfSols();
             UpdateSummary();
@@ -429,7 +429,7 @@ namespace NQueen.Main.ViewModel
 
         private void ExtractCorrectNoOfSols()
         {
-            List<Solution> sols = SimulationResults
+            var sols = SimulationResults
                         .Solutions
                         .Take(MaxNoOfSolutionsInOutput)
                         .ToList();
@@ -452,10 +452,7 @@ namespace NQueen.Main.ViewModel
 
         private bool CanSimulate => IsValid && !IsSingleRunning && !IsMultipleRunning;
 
-        private void Cancel()
-        {
-            Solver.CancelSolver = true;
-        }
+        private void Cancel() => Solver.CancelSolver = true;
 
         private bool CanCancel() => IsSingleRunning || IsMultipleRunning;
 

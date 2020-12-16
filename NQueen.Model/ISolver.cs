@@ -30,5 +30,7 @@ namespace NQueen.Model
         event SolutionFoundDelegate SolutionFound;
 
         Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize, SolutionMode solutionMode);
+
+        Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize);
     }
 }

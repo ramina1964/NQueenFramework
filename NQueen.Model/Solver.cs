@@ -43,6 +43,9 @@ namespace NQueen.Model
             });
         }
 
+        public Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize) =>
+            GetSimulationResultsAsync(boardSize, SolutionMode);
+
         #endregion ISolverInterface
 
         public ISimulationResults GetResults(SolutionMode solutionMode)
