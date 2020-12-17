@@ -24,7 +24,7 @@ namespace NQueen.Test
 
             // Assert
             _ = Actual.Count.Equals(Expected.Count);
-            Actual.Should().BeEquivalentTo(Expected);
+            Actual.Should().ContainInOrder(Expected);
         }
 
         [TestCase(1, SolutionMode.Single), TestCase(1, SolutionMode.Unique), TestCase(1, SolutionMode.All)]
@@ -51,7 +51,7 @@ namespace NQueen.Test
 
         [TestCase(4, SolutionMode.Unique), TestCase(5, SolutionMode.Unique), TestCase(6, SolutionMode.Unique)]
         [TestCase(7, SolutionMode.Unique), TestCase(8, SolutionMode.Unique), TestCase(9, SolutionMode.Unique)]
-        public void Should_generate_correct_non_symmetrical_solutions(sbyte boardSize, SolutionMode solutionMode)
+        public void Should_generate_correct_unique_solutions(sbyte boardSize, SolutionMode solutionMode)
         {
             // Arrange
             Sut = new Solver(boardSize);
@@ -72,7 +72,7 @@ namespace NQueen.Test
 
         [TestCase(1, SolutionMode.All), TestCase(4, SolutionMode.All), TestCase(5, SolutionMode.All)]
         [TestCase(6, SolutionMode.All), TestCase(7, SolutionMode.All), TestCase(8, SolutionMode.All)]
-        public void Should_generate_cvorrect_all_solutions(sbyte boardSize, SolutionMode solutionMode)
+        public void Should_generate_cortrect_all_solutions(sbyte boardSize, SolutionMode solutionMode)
         {
             // Arrange
             Sut = new Solver(boardSize);
