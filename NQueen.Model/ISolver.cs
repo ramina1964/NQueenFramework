@@ -1,5 +1,6 @@
 ﻿using NQueen.Shared;
 using NQueen.Shared.Enum;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,7 +24,7 @@ namespace NQueen.Model
 
         double ProgressValue { get; set; }
 
-        ObservableCollection<Solution> Solutions { get; set; }
+        ObservableCollection<Solution> ObservableSolutions { get; set; }
 
         event QueenPlacedDelegate QueenPlaced;
 

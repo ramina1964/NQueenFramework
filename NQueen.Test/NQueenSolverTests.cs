@@ -18,7 +18,6 @@ namespace NQueen.Test
             // Arrange
             Sut = new Solver(boardSize);
             Expected = GetExpected(boardSize, solutionMode);
-
             // Act
             Actual = GetActual(boardSize, solutionMode);
 
