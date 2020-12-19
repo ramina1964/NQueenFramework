@@ -118,9 +118,9 @@ namespace NQueen.Model
         private void Initialize(sbyte boardSize, DisplayMode displayMode)
         {
             BoardSize = boardSize;
-            HalfSize = (sbyte)(BoardSize % 2 == 0 ?
-                BoardSize / 2 :
-                BoardSize / 2 + 1);
+            HalfSize = (sbyte)(BoardSize % 2 == 0
+                        ? BoardSize / 2
+                        : BoardSize / 2 + 1);
 
             QueenList = Enumerable.Repeat((sbyte)-1, BoardSize).ToArray();
             DisplayMode = displayMode;
@@ -141,7 +141,7 @@ namespace NQueen.Model
                 return true;
             }
 
-            List<sbyte[]> symmSols = Utility.GetSymmSols(queens).ToList();
+            var symmSols = Utility.GetSymmetricalSolutions(queens).ToList();
 
             // If solutionMode == SolutionMode.All, add this solution and all of the symmetrical counterparts to All Solutions.
             if (solutionMode == SolutionMode.All)
