@@ -8,7 +8,7 @@ namespace NQueen.Shared.Utility
 {
     public static class Utility
     {
-        public static IEnumerable<sbyte[]> GetSymmSols(IReadOnlyList<sbyte> solution)
+        public static IEnumerable<sbyte[]> GetSymmetricalSolutions(IReadOnlyList<sbyte> solution)
         {
             sbyte boardSize = (sbyte)solution.Count;
             var symmToMidHorizontal = new sbyte[boardSize];
@@ -43,7 +43,7 @@ namespace NQueen.Shared.Utility
         }
 
         public static List<sbyte[]> GetSymmSols(List<sbyte[]> solution) =>
-            solution.SelectMany(s => GetSymmSols(s)).ToList();
+            solution.SelectMany(s => GetSymmetricalSolutions(s)).ToList();
 
         public static int FindSolutionSize(sbyte boardSize, SolutionMode solutionMode) =>
             (solutionMode == SolutionMode.Single)

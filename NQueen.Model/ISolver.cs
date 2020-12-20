@@ -1,5 +1,6 @@
 ﻿using NQueen.Shared;
 using NQueen.Shared.Enum;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,7 +31,5 @@ namespace NQueen.Model
         event SolutionFoundDelegate SolutionFound;
 
         Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize, SolutionMode solutionMode);
-
-        Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize);
     }
 }

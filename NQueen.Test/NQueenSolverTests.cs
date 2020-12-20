@@ -18,7 +18,6 @@ namespace NQueen.Test
             // Arrange
             Sut = new Solver(boardSize);
             Expected = GetExpected(boardSize, solutionMode);
-
             // Act
             Actual = GetActual(boardSize, solutionMode);
 
@@ -58,7 +57,7 @@ namespace NQueen.Test
             System.Collections.Generic.List<sbyte[]> uniqueSol = GetExpected(boardSize, solutionMode);
             Expected = GetExpected(boardSize, solutionMode);
             System.Collections.Generic.List<sbyte[]> allSymmSol = uniqueSol
-                          .SelectMany(s => Utility.GetSymmSols(s))
+                          .SelectMany(s => Utility.GetSymmetricalSolutions(s))
                           .ToList();
 
             // Act
