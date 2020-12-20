@@ -20,7 +20,6 @@ namespace NQueen.Main.ViewModel
 {
     public sealed class SolverViewModel : ViewModelBase, IDataErrorInfo
     {
-        #region Constructor
         public SolverViewModel(ISolver solver)
         {
             Initialize(solver);
@@ -29,7 +28,6 @@ namespace NQueen.Main.ViewModel
             Solver.QueenPlaced += Queens_QueenPlaced;
             Solver.SolutionFound += Queens_SolutionFound;
         }
-        #endregion Constructor
 
         #region IDataErrorInfo
         public string this[string columnName]
@@ -375,8 +373,7 @@ namespace NQueen.Main.ViewModel
             UpdateSummary();
 
             UpdateGui();
-            SimulationResults = await Solver
-                                .GetSimulationResultsAsync(BoardSize);
+            SimulationResults = await Solver.GetSimulationResultsAsync(BoardSize, SolutionMode);
 
             ExtractCorrectNoOfSols();
             UpdateSummary();
