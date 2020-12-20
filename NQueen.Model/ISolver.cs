@@ -23,7 +23,7 @@ namespace NQueen.Model
 
         double ProgressValue { get; set; }
 
-        ObservableCollection<Solution> Solutions { get; set; }
+        ObservableCollection<Solution> ObservableSolutions { get; set; }
 
         event QueenPlacedDelegate QueenPlaced;
 

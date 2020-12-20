@@ -15,11 +15,11 @@ namespace NQueen.Model
 {
     public class Solver : ViewModelBase, ISolver
     {
-        #region Constructor
+
         public Solver(sbyte boardSize, DisplayMode DisplayMode = DisplayMode.Hide) => Initialize(boardSize, DisplayMode);
-        #endregion Constructor
 
         #region ISolverInterface
+
         public int DelayInMilliseconds { get; set; }
 
         public bool CancelSolver { get; set; }
@@ -28,7 +28,9 @@ namespace NQueen.Model
 
         public DisplayMode DisplayMode { get; set; }
 
-        public ObservableCollection<Solution> Solutions { get; set; }
+        public HashSet<sbyte[]> Solutions = new HashSet<sbyte[]>(new SequenceEquality<sbyte>());
+
+        public ObservableCollection<Solution> ObservableSolutions { get; set; }
 
         public event QueenPlacedDelegate QueenPlaced;
 
@@ -83,13 +85,16 @@ namespace NQueen.Model
         }
 
         #region PublicProperties
+
         public ISimulationResults Results { get; set; }
 
         public sbyte BoardSize { get; set; }
 
         public string BoardSizeText { get; set; }
 
-        public int NoOfSolutions => Solutions.Count();
+        //public int NoOfSolutions => ObservableSolutions.Count;
+
+        public int NoOfSolutions => Solutions.Count;
 
         public sbyte HalfSize { get; set; }
 
@@ -100,9 +105,9 @@ namespace NQueen.Model
             get => _progressLabel;
             set => Set(ref _progressLabel, value);
         }
+
         #endregion PublicProperties
 
-        #region VirtualMethods
         protected virtual void OnQueenPlaced(sbyte[] e)
         {
             QueenPlaced?.Invoke(this, e);
@@ -112,7 +117,6 @@ namespace NQueen.Model
         {
             SolutionFound?.Invoke(this, e);
         }
-        #endregion VirtualMethods
 
         #region PrivateMethods
         private void Initialize(sbyte boardSize, DisplayMode displayMode)
@@ -125,19 +129,20 @@ namespace NQueen.Model
             QueenList = Enumerable.Repeat((sbyte)-1, BoardSize).ToArray();
             DisplayMode = displayMode;
 
+            Solutions = new HashSet<sbyte[]>(new SequenceEquality<sbyte>());
             var solutionSize = Utility.FindSolutionSize(BoardSize, SolutionMode);
-            Solutions = new ObservableCollection<Solution>(new List<Solution>(solutionSize));
+            ObservableSolutions = new ObservableCollection<Solution>(new List<Solution>(solutionSize));
             CancelSolver = false;
         }
 
-        private bool UpdateSols(IEnumerable<sbyte> solution, HashSet<sbyte[]> solutions, SolutionMode solutionMode)
+        private bool UpdateSols(IEnumerable<sbyte> solution, SolutionMode solutionMode)
         {
             var queens = solution.ToArray();
 
             // If solutionMode == SolutionMode.Single, then we are done.
             if (solutionMode == SolutionMode.Single)
             {
-                solutions.Add(queens);
+                Solutions.Add(queens);
                 return true;
             }
 
@@ -146,33 +151,31 @@ namespace NQueen.Model
             // If solutionMode == SolutionMode.All, add this solution and all of the symmetrical counterparts to All Solutions.
             if (solutionMode == SolutionMode.All)
             {
-                solutions.Add(queens);
-                symmSols.ForEach(s => solutions.Add(s));
+                Solutions.Add(queens);
+                symmSols.ForEach(s => Solutions.Add(s));
 
                 return true;
             }
 
             // One of symmetrical solutions is already in the solutions list, nothing to add.
-            if (solutions.Overlaps(symmSols))
+            if (Solutions.Overlaps(symmSols))
             { return false; }
 
             // None of the symmetrical solutions exists in the solutions list, add the new solution to the Unique Solutions.
-            solutions.Add(queens);
+            Solutions.Add(queens);
             return true;
         }
 
         private IEnumerable<Solution> MainSolve(SolutionMode mode)
         {
-            HashSet<sbyte[]> solutions = new HashSet<sbyte[]>(new SequenceEquality<sbyte>());
-
             // Recursive call to start the simulation
-            SolveRec(0, solutions, mode);
+            SolveRec(0, mode);
 
-            return solutions
+            return Solutions
                     .Select((s, index) => new Solution(s, index + 1));
         }
 
-        private bool SolveRec(sbyte colNo, HashSet<sbyte[]> solutions, SolutionMode mode)
+        private bool SolveRec(sbyte colNo, SolutionMode mode)
         {
             if (CancelSolver)
             { return false; }
@@ -183,7 +186,7 @@ namespace NQueen.Model
                 Thread.Sleep(DelayInMilliseconds);
             }
 
-            if (mode == SolutionMode.Single && solutions.Count == 1)
+            if (mode == SolutionMode.Single && Solutions.Count == 1)
             { return true; }
 
             if (colNo == -1)
@@ -192,7 +195,7 @@ namespace NQueen.Model
             // Here a new solution is found.
             if (colNo == BoardSize)
             {
-                bool isUpdated = UpdateSols(QueenList, solutions, mode);
+                bool isUpdated = UpdateSols(QueenList, mode);
 
                 // Activate this code in case of IsVisulaized == true.
                 if (isUpdated && DisplayMode == DisplayMode.Visualize)
@@ -202,19 +205,19 @@ namespace NQueen.Model
                 return false;
             }
 
-            QueenList[colNo] = LocateQueen(colNo, solutions, mode);
+            QueenList[colNo] = LocateQueen(colNo, mode);
             if (QueenList[colNo] == -1)
             {
                 return false;
             }
 
-            return SolveRec((sbyte)(colNo + 1), solutions, mode) || SolveRec(colNo, solutions, mode);
+            return SolveRec((sbyte)(colNo + 1), mode) || SolveRec(colNo, mode);
         }
 
         // Locate Queen
-        private sbyte LocateQueen(sbyte colNo, HashSet<sbyte[]> solutions, SolutionMode mode)
+        private sbyte LocateQueen(sbyte colNo, SolutionMode mode)
         {
-            bool isHalfSizeReachedMultSol = colNo == HalfSize && solutions.Count > 0 &&
+            bool isHalfSizeReachedMultSol = colNo == HalfSize && Solutions.Count > 0 &&
                 Array.IndexOf<sbyte>(QueenList, 0, 0, HalfSize) == -1 && mode != SolutionMode.Single;
 
             if (isHalfSizeReachedMultSol)
@@ -243,10 +246,8 @@ namespace NQueen.Model
 
         #endregion PrivateMethods
 
-        #region PrivateFields
         private double _progressValue;
         private string _progressLabel;
         private Visibility _progressBarVisibility;
-        #endregion PrivateFields
     }
 }
