@@ -42,7 +42,7 @@ namespace NQueen.Shared.Utility
             };
         }
 
-        public static List<sbyte[]> GetSymmSols(List<sbyte[]> solution) =>
+        public static List<sbyte[]> GetSymmetricalSolutions(List<sbyte[]> solution) =>
             solution.SelectMany(s => GetSymmetricalSolutions(s)).ToList();
 
         public static int FindSolutionSize(sbyte boardSize, SolutionMode solutionMode) =>
