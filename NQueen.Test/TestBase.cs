@@ -9,18 +9,18 @@ namespace NQueen.Test
     {
         public Solver Sut { get; set; }
 
-        public List<sbyte[]> Expected { get; set; }
+        public List<sbyte[]> ExpectedSolutions { get; set; }
 
-        public List<sbyte[]> Actual { get; set; }
+        public List<sbyte[]> ActualSolutions { get; set; }
 
-        public List<sbyte[]> GetExpected(sbyte boardSize, SolutionMode solutionMode)
+        public List<sbyte[]> GetExpectedSolutions(sbyte boardSize, SolutionMode solutionMode)
             => (solutionMode == SolutionMode.Single)
-                ? GetSingleSol(boardSize).ToList()
+                ? GetSingleSolution(boardSize).ToList()
                 : (solutionMode == SolutionMode.Unique)
-                ? GetUniqueSols(boardSize).ToList()
-                : GetAllSols(boardSize).ToList();
+                ? GetUniqueSolutions(boardSize).ToList()
+                : GetAllSolutions(boardSize).ToList();
 
-        public List<sbyte[]> GetActual(sbyte boardSize, SolutionMode solutionMode)
+        public List<sbyte[]> GetActualSolutions(sbyte boardSize, SolutionMode solutionMode)
             => Sut
                 .GetSimulationResultsAsync(boardSize, solutionMode)
                 .Result
@@ -28,14 +28,14 @@ namespace NQueen.Test
                 .Select(s => s.QueenList)
                 .ToList();
 
-        public static List<sbyte[]> GetSingleSol(sbyte boardSize) => singleSol[boardSize];
+        public static List<sbyte[]> GetSingleSolution(sbyte boardSize) => singleSolution[boardSize];
 
-        public static List<sbyte[]> GetUniqueSols(sbyte boardSize) => uniqueSol[boardSize];
+        public static List<sbyte[]> GetUniqueSolutions(sbyte boardSize) => uniqueSolutions[boardSize];
 
-        public static List<sbyte[]> GetAllSols(sbyte boardSize) => allSol[boardSize];
+        public static List<sbyte[]> GetAllSolutions(sbyte boardSize) => allSolutions[boardSize];
 
         #region PrivateAttributes
-        private static readonly Dictionary<sbyte, List<sbyte[]>> singleSol = new Dictionary<sbyte, List<sbyte[]>>
+        private static readonly Dictionary<sbyte, List<sbyte[]>> singleSolution = new Dictionary<sbyte, List<sbyte[]>>
         {
             { 1, new List<sbyte[]> { new sbyte[]  { 0 } } },
             { 2, new List<sbyte[]> { } },
@@ -91,7 +91,7 @@ namespace NQueen.Test
             }
         };
 
-        private static readonly Dictionary<sbyte, List<sbyte[]>> uniqueSol = new Dictionary<sbyte, List<sbyte[]>>
+        private static readonly Dictionary<sbyte, List<sbyte[]>> uniqueSolutions = new Dictionary<sbyte, List<sbyte[]>>
         {
             { 1, new List<sbyte[]> { new sbyte[] { 0 } } },
             { 2, new List<sbyte[]> { } },
@@ -190,7 +190,7 @@ namespace NQueen.Test
             },
         };
 
-        private static readonly Dictionary<sbyte, List<sbyte[]>> allSol = new Dictionary<sbyte, List<sbyte[]>>
+        private static readonly Dictionary<sbyte, List<sbyte[]>> allSolutions = new Dictionary<sbyte, List<sbyte[]>>
         {
             { 1, new List<sbyte[]> { new sbyte[] { 0 } } },
             { 2, new List<sbyte[]> { } },

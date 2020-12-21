@@ -1,14 +1,13 @@
 ﻿using NQueen.Shared;
 using NQueen.Shared.Enum;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace NQueen.Model
 {
-    public delegate void SolutionFoundDelegate(object sender, sbyte[] e);
-    public delegate void QueenPlacedDelegate(object sender, sbyte[] e);
+    public delegate void QueenPlacedHandler(object sender, QueenPlacedEventArgs e);
+    public delegate void SolutionFoundHandler(object sender, SolutionFoundEventArgs e);
 
     public interface ISolver
     {
@@ -26,10 +25,10 @@ namespace NQueen.Model
 
         ObservableCollection<Solution> ObservableSolutions { get; set; }
 
-        event QueenPlacedDelegate QueenPlaced;
-
-        event SolutionFoundDelegate SolutionFound;
-
         Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize, SolutionMode solutionMode);
+
+        event QueenPlacedHandler QueenPlaced;
+
+        event SolutionFoundHandler SolutionFound;
     }
 }

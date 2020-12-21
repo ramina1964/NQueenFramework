@@ -74,7 +74,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="QueenPlacedEventArgs.cs" />
     <Compile Include="SimulationResults.cs" />
+    <Compile Include="SolutionFoundEventArgs.cs" />
     <Compile Include="Solver.cs" />
   </ItemGroup>
   <ItemGroup>

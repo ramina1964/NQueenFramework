@@ -15,7 +15,6 @@ namespace NQueen.Model
 {
     public class Solver : ViewModelBase, ISolver
     {
-
         public Solver(sbyte boardSize, DisplayMode DisplayMode = DisplayMode.Hide) => Initialize(boardSize, DisplayMode);
 
         #region ISolverInterface
@@ -32,9 +31,9 @@ namespace NQueen.Model
 
         public ObservableCollection<Solution> ObservableSolutions { get; set; }
 
-        public event QueenPlacedDelegate QueenPlaced;
+        public event QueenPlacedHandler QueenPlaced;
 
-        public event SolutionFoundDelegate SolutionFound;
+        public event SolutionFoundHandler SolutionFound;
 
         public Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize, SolutionMode solutionMode)
         {
@@ -103,15 +102,9 @@ namespace NQueen.Model
 
         #endregion PublicProperties
 
-        protected virtual void OnQueenPlaced(sbyte[] e)
-        {
-            QueenPlaced?.Invoke(this, e);
-        }
+        protected virtual void OnQueenPlaced(object sender, QueenPlacedEventArgs e) => QueenPlaced?.Invoke(this, e);
 
-        protected virtual void OnSolutionFound(sbyte[] e)
-        {
-            SolutionFound?.Invoke(this, e);
-        }
+        protected virtual void OnSolutionFound(object sender, SolutionFoundEventArgs e) => SolutionFound?.Invoke(this, e);
 
         #region PrivateMethods
         private void Initialize(sbyte boardSize, DisplayMode displayMode)
@@ -125,10 +118,10 @@ namespace NQueen.Model
 
             QueenList = Enumerable.Repeat((sbyte)-1, BoardSize).ToArray();
             Solutions = new HashSet<sbyte[]>(new SequenceEquality<sbyte>());
-            ObservableSolutions = new ObservableCollection<Solution>();
-
-            //var solutionSize = Utility.FindSolutionSize(BoardSize, SolutionMode);
-            //ObservableSolutions = new ObservableCollection<Solution>(new List<Solution>(solutionSize));
+            
+            //ObservableSolutions = new ObservableCollection<Solution>();
+            var solutionSize = Utility.FindSolutionSize(BoardSize, SolutionMode);
+            ObservableSolutions = new ObservableCollection<Solution>(new List<Solution>(solutionSize));
         }
 
         private bool UpdateSolutions(IEnumerable<sbyte> solution, SolutionMode solutionMode)
@@ -178,7 +171,7 @@ namespace NQueen.Model
 
             if (DisplayMode == DisplayMode.Visualize)
             {
-                OnQueenPlaced(QueenList);
+                OnQueenPlaced(this, new QueenPlacedEventArgs(QueenList));
                 Thread.Sleep(DelayInMilliseconds);
             }
 
@@ -195,7 +188,7 @@ namespace NQueen.Model
 
                 // Activate this code in case of IsVisulaized == true.
                 if (isUpdated && DisplayMode == DisplayMode.Visualize)
-                { SolutionFound(this, QueenList); }
+                { SolutionFound(this, new SolutionFoundEventArgs(QueenList)); }
 
                 ProgressValue = Math.Round(100.0 * QueenList[0] / BoardSize);
                 return false;
@@ -214,7 +207,7 @@ namespace NQueen.Model
         // Locate Queen
         private sbyte LocateQueen(sbyte colNo, SolutionMode solutionMode)
         {
-            bool isHalfSizeReachedMultSol = colNo == HalfSize && Solutions.Count > 0 &&
+            var isHalfSizeReachedMultSol = colNo == HalfSize && Solutions.Count > 0 &&
                 Array.IndexOf<sbyte>(QueenList, 0, 0, HalfSize) == -1 && solutionMode != SolutionMode.Single;
 
             if (isHalfSizeReachedMultSol)
@@ -222,7 +215,7 @@ namespace NQueen.Model
 
             for (sbyte pos = (sbyte)(QueenList[colNo] + 1); pos < BoardSize; pos++)
             {
-                bool isValid = true;
+                var isValid = true;
                 for (int j = 0; j < colNo; j++)
                 {
                     int lhs = Math.Abs(pos - QueenList[j]);

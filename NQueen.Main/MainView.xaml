@@ -7,7 +7,6 @@
 		xmlns:view="clr-namespace:NQueen.Main.View"
 		xmlns:converter="clr-namespace:NQueen.Main.Converter"
 		mc:Ignorable="d" FontSize="14"
-		Title="Solutions of NQueen-Problem with Backtracking"
 
 		MinWidth="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth},
 				Converter={converter:RatioConverter}, ConverterParameter='0.90'}"
@@ -15,6 +14,7 @@
 		MinHeight="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight},
 				Converter={converter:RatioConverter}, ConverterParameter='0.96'}"
 
+		Title="Solutions of NQueen-Problem with Backtracking - .Net Framework 4.8"
 		WindowStartupLocation="CenterScreen" ResizeMode="CanResize" WindowState="Normal">
 
 	<!-- Start of Outer Grid -->
