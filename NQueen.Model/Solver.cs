@@ -118,7 +118,7 @@ namespace NQueen.Model
 
             QueenList = Enumerable.Repeat((sbyte)-1, BoardSize).ToArray();
             Solutions = new HashSet<sbyte[]>(new SequenceEquality<sbyte>());
-            
+
             //ObservableSolutions = new ObservableCollection<Solution>();
             var solutionSize = Utility.FindSolutionSize(BoardSize, SolutionMode);
             ObservableSolutions = new ObservableCollection<Solution>(new List<Solution>(solutionSize));
@@ -169,6 +169,10 @@ namespace NQueen.Model
             if (CancelSolver)
             { return false; }
 
+            // All Symmetrical solutions are found and registered. Quit the recursion.
+            if (QueenList[0] == HalfSize)
+            { return false; }
+
             if (DisplayMode == DisplayMode.Visualize)
             {
                 OnQueenPlaced(this, new QueenPlacedEventArgs(QueenList));
@@ -190,7 +194,7 @@ namespace NQueen.Model
                 if (isUpdated && DisplayMode == DisplayMode.Visualize)
                 { SolutionFound(this, new SolutionFoundEventArgs(QueenList)); }
 
-                ProgressValue = Math.Round(100.0 * QueenList[0] / BoardSize);
+                ProgressValue = Math.Round(100.0 * QueenList[0] / HalfSize, 1);
                 return false;
             }
 
@@ -207,12 +211,6 @@ namespace NQueen.Model
         // Locate Queen
         private sbyte LocateQueen(sbyte colNo, SolutionMode solutionMode)
         {
-            var isHalfSizeReachedMultSol = colNo == HalfSize && Solutions.Count > 0 &&
-                Array.IndexOf<sbyte>(QueenList, 0, 0, HalfSize) == -1 && solutionMode != SolutionMode.Single;
-
-            if (isHalfSizeReachedMultSol)
-            { return -1; }
-
             for (sbyte pos = (sbyte)(QueenList[colNo] + 1); pos < BoardSize; pos++)
             {
                 var isValid = true;
@@ -233,6 +231,10 @@ namespace NQueen.Model
 
             return -1;
         }
+
+        //private bool IsAllSymmetricalRegistered(sbyte colNo) => QueenList[0] > HalfSize;
+        //(colNo == HalfSize && Solutions.Count > 0 &&
+        //        Array.IndexOf<sbyte>(QueenList, 0, 0, HalfSize) == -1) || QueenList[0] > HalfSize;
 
         #endregion PrivateMethods
 
