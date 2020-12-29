@@ -15,7 +15,7 @@ namespace NQueen.Model
 {
     public class Solver : ViewModelBase, ISolver
     {
-        public Solver(sbyte boardSize, DisplayMode DisplayMode = DisplayMode.Hide) => Initialize(boardSize, DisplayMode);
+        public Solver(sbyte boardSize) => Initialize(boardSize);
 
         #region ISolverInterface
 
@@ -35,12 +35,13 @@ namespace NQueen.Model
 
         public event SolutionFoundHandler SolutionFound;
 
-        public Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize, SolutionMode solutionMode)
+        public Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize, SolutionMode solutionMode, DisplayMode displayMode)
         {
             return Task.Factory.StartNew(() =>
             {
-                Initialize(boardSize, DisplayMode);
                 SolutionMode = solutionMode;
+                DisplayMode = displayMode;
+                Initialize(boardSize);
                 return GetResults();
             });
         }
@@ -108,10 +109,9 @@ namespace NQueen.Model
         protected virtual void OnSolutionFound(object sender, SolutionFoundEventArgs e) => SolutionFound?.Invoke(this, e);
 
         #region PrivateMethods
-        private void Initialize(sbyte boardSize, DisplayMode displayMode)
+        private void Initialize(sbyte boardSize)
         {
             BoardSize = boardSize;
-            DisplayMode = displayMode;
             CancelSolver = false;
 
             HalfSize = (sbyte)(BoardSize % 2 == 0 ?

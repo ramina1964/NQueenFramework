@@ -20,9 +20,9 @@ namespace NQueen.Test
                 ? GetUniqueSolutions(boardSize).ToList()
                 : GetAllSolutions(boardSize).ToList();
 
-        public List<sbyte[]> GetActualSolutions(sbyte boardSize, SolutionMode solutionMode)
+        public List<sbyte[]> GetActualSolutions(sbyte boardSize, SolutionMode solutionMode, DisplayMode displayMode)
             => Sut
-                .GetSimulationResultsAsync(boardSize, solutionMode)
+                .GetSimulationResultsAsync(boardSize, solutionMode, displayMode)
                 .Result
                 .Solutions
                 .Select(s => s.QueenList)

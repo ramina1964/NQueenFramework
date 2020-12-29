@@ -17,7 +17,7 @@ namespace NQueen.Test
             ExpectedSolutions = GetExpectedSolutions(boardSize, solutionMode);
 
             // Act
-            ActualSolutions = GetActualSolutions(boardSize, solutionMode);
+            ActualSolutions = GetActualSolutions(boardSize, solutionMode, DisplayMode.Hide);
 
             // Assert
             Assert.AreEqual(ExpectedSolutions.Count, ActualSolutions.Count);
@@ -39,7 +39,7 @@ namespace NQueen.Test
             ExpectedSolutions = GetExpectedSolutions(boardSize, solutionMode);
 
             // Act
-            ActualSolutions = GetActualSolutions(boardSize, solutionMode);
+            ActualSolutions = GetActualSolutions(boardSize, solutionMode, DisplayMode.Hide);
 
             // Assert
             Assert.AreEqual(ExpectedSolutions.Count, ActualSolutions.Count);
@@ -55,7 +55,7 @@ namespace NQueen.Test
             ExpectedSolutions = GetExpectedSolutions(boardSize, solutionMode);
 
             // Act
-            ActualSolutions = GetActualSolutions(boardSize, solutionMode);
+            ActualSolutions = GetActualSolutions(boardSize, solutionMode, DisplayMode.Hide);
 
             // Assert
             Assert.AreEqual(ExpectedSolutions.Count, ActualSolutions.Count);
@@ -71,7 +71,7 @@ namespace NQueen.Test
             ExpectedSolutions = GetExpectedSolutions(boardSize, solutionMode);
 
             // Act
-            ActualSolutions = GetActualSolutions(boardSize, solutionMode);
+            ActualSolutions = GetActualSolutions(boardSize, solutionMode, DisplayMode.Hide);
 
             // Assert
             Assert.AreEqual(ExpectedSolutions.Count, ActualSolutions.Count);

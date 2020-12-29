@@ -373,7 +373,7 @@ namespace NQueen.Main.ViewModel
             UpdateSummary();
 
             UpdateGui();
-            SimulationResults = await Solver.GetSimulationResultsAsync(BoardSize, SolutionMode);
+            SimulationResults = await Solver.GetSimulationResultsAsync(BoardSize, SolutionMode, DisplayMode);
 
             ExtractCorrectNoOfSols();
             UpdateSummary();

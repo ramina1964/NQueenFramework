@@ -18,7 +18,7 @@ namespace NQueen.Main
         private void Load()
         {
             var boardSize = Settings.Default.DefaultBoardSize;
-            var solver = new Solver(boardSize, DisplayMode.Hide);
+            var solver = new Solver(boardSize);
             MainViewModel = new MainViewModel(solver);
         }
 

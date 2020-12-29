@@ -25,7 +25,7 @@ namespace NQueen.Model
 
         ObservableCollection<Solution> ObservableSolutions { get; set; }
 
-        Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize, SolutionMode solutionMode);
+        Task<ISimulationResults> GetSimulationResultsAsync(sbyte boardSize, SolutionMode solutionMode, DisplayMode displayMode);
 
         event QueenPlacedHandler QueenPlaced;
 
