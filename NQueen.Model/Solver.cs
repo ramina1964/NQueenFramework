@@ -125,23 +125,23 @@ namespace NQueen.Model
             ObservableSolutions = new ObservableCollection<Solution>(new List<Solution>(solutionSize));
         }
 
-        private bool UpdateSolutions(IEnumerable<sbyte> solution)
+        private bool UpdateSolutions(IEnumerable<sbyte> queens)
         {
-            var queens = solution.ToArray();
+            var solution = queens.ToArray();
 
             // If solutionMode == SolutionMode.Single, then we are done.
             if (SolutionMode == SolutionMode.Single)
             {
-                Solutions.Add(queens);
+                Solutions.Add(solution);
                 return true;
             }
 
-            var symmetricalSolutions = Utility.GetSymmetricalSolutions(queens).ToList();
+            var symmetricalSolutions = Utility.GetSymmetricalSolutions(solution).ToList();
 
             // If solutionMode == SolutionMode.All, add this solution and all of the symmetrical counterparts to All Solutions.
             if (SolutionMode == SolutionMode.All)
             {
-                Solutions.Add(queens);
+                Solutions.Add(solution);
                 symmetricalSolutions.ForEach(s => Solutions.Add(s));
 
                 return true;
@@ -152,21 +152,20 @@ namespace NQueen.Model
             { return false; }
 
             // None of the symmetrical solutions exists in the solutions list, add the new solution to the Unique Solutions.
-            Solutions.Add(queens);
+            Solutions.Add(solution);
             return true;
         }
 
         private IEnumerable<Solution> MainSolve()
         {
             // Recursive call to start the simulation
-            SolveRec();
+            RecSolve(0);
 
             return Solutions
                     .Select((s, index) => new Solution(s, index + 1));
         }
 
-        //private bool SolveRec(SolutionMode solutionMode, sbyte colNo = 0)
-        private bool SolveRec(sbyte colNo = 0)
+        private bool RecSolve(sbyte colNo)
         {
             if (CancelSolver)
             { return false; }
@@ -207,7 +206,7 @@ namespace NQueen.Model
             }
 
             var nextCol = (sbyte)(colNo + 1);
-            return SolveRec(nextCol) || SolveRec(colNo);
+            return RecSolve(nextCol) || RecSolve(colNo);
         }
 
         // Locate Queen
