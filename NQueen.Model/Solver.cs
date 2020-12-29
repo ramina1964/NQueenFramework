@@ -40,16 +40,17 @@ namespace NQueen.Model
             return Task.Factory.StartNew(() =>
             {
                 Initialize(boardSize, DisplayMode);
-                return GetResults(solutionMode);
+                SolutionMode = solutionMode;
+                return GetResults();
             });
         }
 
         #endregion ISolverInterface
 
-        public ISimulationResults GetResults(SolutionMode solutionMode)
+        public ISimulationResults GetResults()
         {
+            var solutions = MainSolve().ToList();
             var stopwatch = Stopwatch.StartNew();
-            var solutions = MainSolve(solutionMode).ToList();
             stopwatch.Stop();
             var timeInSec = (double)stopwatch.ElapsedMilliseconds / 1000;
             var elapsedTimeInSec = Math.Round(timeInSec, 1);
@@ -110,12 +111,12 @@ namespace NQueen.Model
         private void Initialize(sbyte boardSize, DisplayMode displayMode)
         {
             BoardSize = boardSize;
+            DisplayMode = displayMode;
+            CancelSolver = false;
+
             HalfSize = (sbyte)(BoardSize % 2 == 0 ?
                 BoardSize / 2 :
                 BoardSize / 2 + 1);
-            CancelSolver = false;
-            DisplayMode = displayMode;
-
             QueenList = Enumerable.Repeat((sbyte)-1, BoardSize).ToArray();
             Solutions = new HashSet<sbyte[]>(new SequenceEquality<sbyte>());
 
@@ -124,12 +125,12 @@ namespace NQueen.Model
             ObservableSolutions = new ObservableCollection<Solution>(new List<Solution>(solutionSize));
         }
 
-        private bool UpdateSolutions(IEnumerable<sbyte> solution, SolutionMode solutionMode)
+        private bool UpdateSolutions(IEnumerable<sbyte> solution)
         {
             var queens = solution.ToArray();
 
             // If solutionMode == SolutionMode.Single, then we are done.
-            if (solutionMode == SolutionMode.Single)
+            if (SolutionMode == SolutionMode.Single)
             {
                 Solutions.Add(queens);
                 return true;
@@ -138,7 +139,7 @@ namespace NQueen.Model
             var symmetricalSolutions = Utility.GetSymmetricalSolutions(queens).ToList();
 
             // If solutionMode == SolutionMode.All, add this solution and all of the symmetrical counterparts to All Solutions.
-            if (solutionMode == SolutionMode.All)
+            if (SolutionMode == SolutionMode.All)
             {
                 Solutions.Add(queens);
                 symmetricalSolutions.ForEach(s => Solutions.Add(s));
@@ -155,16 +156,17 @@ namespace NQueen.Model
             return true;
         }
 
-        private IEnumerable<Solution> MainSolve(SolutionMode solutionMode)
+        private IEnumerable<Solution> MainSolve()
         {
             // Recursive call to start the simulation
-            SolveRec(solutionMode);
+            SolveRec();
 
             return Solutions
                     .Select((s, index) => new Solution(s, index + 1));
         }
 
-        private bool SolveRec(SolutionMode solutionMode, sbyte colNo = 0)
+        //private bool SolveRec(SolutionMode solutionMode, sbyte colNo = 0)
+        private bool SolveRec(sbyte colNo = 0)
         {
             if (CancelSolver)
             { return false; }
@@ -179,7 +181,7 @@ namespace NQueen.Model
                 Thread.Sleep(DelayInMilliseconds);
             }
 
-            if (solutionMode == SolutionMode.Single && NoOfSolutions == 1)
+            if (SolutionMode == SolutionMode.Single && NoOfSolutions == 1)
             { return true; }
 
             if (colNo == -1)
@@ -188,7 +190,7 @@ namespace NQueen.Model
             // Here a new solution is found.
             if (colNo == BoardSize)
             {
-                bool isUpdated = UpdateSolutions(QueenList, solutionMode);
+                bool isUpdated = UpdateSolutions(QueenList);
 
                 // Activate this code in case of IsVisulaized == true.
                 if (isUpdated && DisplayMode == DisplayMode.Visualize)
@@ -198,18 +200,18 @@ namespace NQueen.Model
                 return false;
             }
 
-            QueenList[colNo] = LocateQueen(colNo, solutionMode);
+            QueenList[colNo] = LocateQueen(colNo);
             if (QueenList[colNo] == -1)
             {
                 return false;
             }
 
             var nextCol = (sbyte)(colNo + 1);
-            return SolveRec(solutionMode, nextCol) || SolveRec(solutionMode, colNo);
+            return SolveRec(nextCol) || SolveRec(colNo);
         }
 
         // Locate Queen
-        private sbyte LocateQueen(sbyte colNo, SolutionMode solutionMode)
+        private sbyte LocateQueen(sbyte colNo)
         {
             for (sbyte pos = (sbyte)(QueenList[colNo] + 1); pos < BoardSize; pos++)
             {
@@ -231,10 +233,6 @@ namespace NQueen.Model
 
             return -1;
         }
-
-        //private bool IsAllSymmetricalRegistered(sbyte colNo) => QueenList[0] > HalfSize;
-        //(colNo == HalfSize && Solutions.Count > 0 &&
-        //        Array.IndexOf<sbyte>(QueenList, 0, 0, HalfSize) == -1) || QueenList[0] > HalfSize;
 
         #endregion PrivateMethods
 
