@@ -125,7 +125,7 @@ namespace NQueen.Model
             ObservableSolutions = new ObservableCollection<Solution>(new List<Solution>(solutionSize));
         }
 
-        private bool UpdateSolutions(IEnumerable<sbyte> queens)
+        private void UpdateSolutions(IEnumerable<sbyte> queens)
         {
             var solution = queens.ToArray();
 
@@ -133,7 +133,7 @@ namespace NQueen.Model
             if (SolutionMode == SolutionMode.Single)
             {
                 Solutions.Add(solution);
-                return true;
+                return;
             }
 
             var symmetricalSolutions = Utility.GetSymmetricalSolutions(solution).ToList();
@@ -144,16 +144,16 @@ namespace NQueen.Model
                 Solutions.Add(solution);
                 symmetricalSolutions.ForEach(s => Solutions.Add(s));
 
-                return true;
+                return;
             }
 
-            // One of symmetrical solutions is already in the solutions list, nothing to add.
+            // There is nothing to add, if the symmetrical solutions and solutions list has any overlap.
             if (Solutions.Overlaps(symmetricalSolutions))
-            { return false; }
+            { return; }
 
             // None of the symmetrical solutions exists in the solutions list, add the new solution to the Unique Solutions.
             Solutions.Add(solution);
-            return true;
+            return;
         }
 
         private IEnumerable<Solution> MainSolve()
@@ -189,10 +189,10 @@ namespace NQueen.Model
             // Here a new solution is found.
             if (colNo == BoardSize)
             {
-                bool isUpdated = UpdateSolutions(QueenList);
+                UpdateSolutions(QueenList);
 
                 // Activate this code in case of IsVisulaized == true.
-                if (isUpdated && DisplayMode == DisplayMode.Visualize)
+                if (DisplayMode == DisplayMode.Visualize)
                 { SolutionFound(this, new SolutionFoundEventArgs(QueenList)); }
 
                 ProgressValue = Math.Round(100.0 * QueenList[0] / HalfSize, 1);
