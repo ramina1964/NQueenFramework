@@ -165,7 +165,6 @@ namespace NQueen.Model
                     .Select((s, index) => new Solution(s, index + 1));
         }
 
-        //private bool SolveRec(SolutionMode solutionMode, sbyte colNo = 0)
         private bool SolveRec(sbyte colNo = 0)
         {
             if (CancelSolver)
