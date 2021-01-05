@@ -15,6 +15,7 @@ using NQueen.Shared.Utility;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
+using NQueen.Shared.Interfaces;
 
 namespace NQueen.Main.ViewModel
 {

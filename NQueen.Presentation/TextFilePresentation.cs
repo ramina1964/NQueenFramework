@@ -1,12 +1,12 @@
 ﻿using NQueen.Shared;
 using NQueen.Shared.Enum;
+using NQueen.Shared.Interfaces;
 using NQueen.Shared.Properties;
-using NQueen.Model;
+using NQueen.Shared.Utility;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
-using NQueen.Shared.Utility;
 
 namespace NQueen.Presentation
 {
