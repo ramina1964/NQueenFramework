@@ -2,20 +2,19 @@
 using FluentValidation.Results;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using NQueen.Presentation;
 using NQueen.Shared;
 using NQueen.Shared.Enum;
+using NQueen.Shared.Interfaces;
 using NQueen.Shared.Properties;
-using NQueen.Model;
-using NQueen.Presentation;
+using NQueen.Shared.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using NQueen.Shared.Utility;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
-using NQueen.Shared.Interfaces;
 
 namespace NQueen.Main.ViewModel
 {
@@ -49,7 +48,9 @@ namespace NQueen.Main.ViewModel
             {
                 var results = _validation?.Validate(this);
                 if (results == null || !results.Errors.Any())
+                {
                     return string.Empty;
+                }
 
                 string errors = string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray());
                 return errors;
@@ -437,7 +438,7 @@ namespace NQueen.Main.ViewModel
             {
                 Solutions.Clear();
 
-                sols 
+                sols
                 .ForEach(sol => Solutions.Add(sol));
             }
 
