@@ -29,18 +29,15 @@ namespace NQueen.Presentation
 
         public double ElapsedTimeInSec { get; set; }
 
-        internal int NoOfSolutions { get; }
+        public int NoOfSolutions { get; }
 
         public int MaxNoOfSolutionsInOutput { get; }
 
-        internal sbyte BoardSize { get; set; }
+        public sbyte BoardSize { get; set; }
 
-        internal int NoOfSolutionsInOutput { get; }
+        public int NoOfSolutionsInOutput { get; }
 
-        public StringBuilder FormatSingleSolution(Solution solution)
-        {
-            return new StringBuilder().Append($"{solution.Details}");
-        }
+        public StringBuilder FormatSingleSolution(Solution solution) => new StringBuilder().Append($"{solution.Details}");
 
         public string Write2File(SolutionMode solutionMode)
         {
